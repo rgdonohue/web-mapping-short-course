@@ -20,14 +20,14 @@ By the end of this course, students will be able to:
 
 The course will make use of the following software components, which are freely available on the web:
 
-* A text editor (Brackets, Sublime, or Atom)
+* A text editor ([Brackets](http://brackets.io/), [Sublime](https://www.sublimetext.com/), or [Atom](https://atom.io/))
 * A modern web browser (Chrome or Firefox recommended)
 * Web developer tools (built into modern browsers)
 * A local web server
 
 The course will introduce and demonstrate use cases for the following open source JavaScript libraries:
 
-* [JQuery](https://jquery.com/))
+* [JQuery](https://jquery.com/)
 * [Leaflet](http://leafletjs.com/)
 * [Turf](http://turfjs.org/)
 * [Simple Statistics](http://simplestatistics.org/)
@@ -37,9 +37,9 @@ Additionally, course materials are made available through the [GitHub](https://g
 
 ### Assumed Background Knowledge
 
-The learning curve for web development is steep, and mastering web mapping requires wrestling with an intimidating array of tools and technical jargon. Teaching computer programming and covering the breadth of geospatial technologies is beyond the scope of this short course, and some experience with computer programming or web design is helpful, and supplementary technical learning is encouraged.
+The learning curve for web development is steep, and mastering web mapping requires wrestling with an intimidating array of tools and technical jargon. Teaching computer programming and covering the breadth of geospatial technologies is beyond the scope of this short course. Some experience with computer programming or web design is helpful, and supplementary technical learning is encouraged.
 
-That stated, the course is intended as a gentle introduction to web mapping and assumes no expertise in coding or Geographic Information Science. Modules provide with code examples and templates for completion of module exercises.
+That stated, the course is intended as a gentle introduction to web mapping and assumes no expertise in coding or Geographic Information Science. Modules provide code examples and templates for completion of exercises.
 
 Most importantly, the course requires curiosity and a willingness to be confused and frustrated while puzzling through problems.
 
@@ -52,7 +52,7 @@ The course comprises four weekly modules encompassing 2 hours of guided instruct
 * **November 11th** -- Thematic Web Mapping: Value by Area
 * **November 18th** -- Extending Web Maps with Plugins and Web Hosting
 
-The course will meet in the Ken Erickson Spatial Data Analysis Lab (Guggenheim Rm 6), on the CU-Boulder campus.
+The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geography.colorado.edu/research/lab_facility/ken_erickson_spatial_data_analysis_lab) (Guggenheim Rm 6), on the CU-Boulder campus.
 
 ## Additional Help and Resources
 
@@ -69,12 +69,12 @@ The introductory module acquaints students with the key components of a web mapp
 
 ### 2. Thematic Web Mapping: Point Symbology
 
-The second module explores cartographic techniques for representing point features within a web map. Students learn a process for loading Comma Separated Values (CSV) data into a script and converting them to GeoJSON before drawing them to the map. Custom written code then uses the visual variable of size to create a proportional symbol map based on quantitative (ordinal or interval) data attribute values. Students will further extend the point symbol map to encode nominal attribute data using the visual variable of color (or hue) to produce an effective bi-variate map. The lesson demonstrates interaction techniques for filtering represented data.
+The second module explores cartographic techniques for representing point features within a web map. Students learn a process for loading Comma Separated Values (CSV) data into a script and converting them to GeoJSON before drawing them to the map. Custom written code then uses the visual variable of size to represent quantitative data attribute values and create a proportional symbol map. Students then extend the point symbol map to encode nominal attribute data using the visual variable of color (or hue) to produce a bi-variate map. The lesson demonstrates user interaction techniques for filtering represented data.
 
 ### 3. Thematic Web Mapping: Value by Area
 
-The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The JavaScript library Turf.js provides powerful geoprocessing capabilities within the browser, without the need for a Desktop GIS. Client-side code dynamically classifies data for encoding areal units by saturation level
+The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The JavaScript library Turf provides powerful geoprocessing capabilities within the browser, without the need for a Desktop GIS. Client-side code dynamically classifies data for encoding areal units by saturation level
 
 ### 4. Extending Web Maps with Plugins and Web Hosting
 
-The final module further extends the core functionality of a library's API through the employment of [plugins](http://leafletjs.com/plugins.html), which build upon the open codebase of the Leaflet.js library. Students are encouraged to play with plugin functionality best-suited to meet the map user's objectives. Finally, the module documents a streamlined approach for easily hosting web maps using GitHub.
+The final module further extends the core functionality of a library's API through the employment of [plugins](http://leafletjs.com/plugins.html), which build upon the open codebase of the Leaflet library. Students are encouraged to play with plugin functionality best-suited to meet the map user's objectives. Finally, the module documents a streamlined approach for easily hosting web maps using GitHub.
