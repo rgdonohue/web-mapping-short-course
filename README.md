@@ -1,6 +1,6 @@
 # Open Source Web Cartography: A Mapping Short Course
 
-<img src='web-map.png' alt='web map' style='float:left; margin: 0 15px 15px 0'>The availability of code-free, push-button interfaces for making sophisticated web maps remains an ongoing goal for the web mapping community (e.g., [CARTO's Builder](https://carto.com/builder/), [Mapbox's Studio](https://www.mapbox.com/mapbox-studio/), or [ESRI's Configurable Apps](http://www.esri.com/software/configurable-apps)). However, proficiency in the web scripting languages of HTML, SVG, CSS, and JavaScript allows web cartographers to enhance the user experience of web maps beyond what is provided by such tools. The growing availability of freely distributed, open source code libraries and open Application Programming Interfaces (APIs) provide web mappers with advanced geoprocessing, representation, and interaction capabilities. This short course will introduce students to the design and development practices of building customized web maps and explore a variety of thematic mapping techniques.
+<img src='web-map.png' alt='web map' style='float:left; margin: 0 15px 15px 0;'>The availability of code-free, push-button interfaces for making sophisticated web maps remains an ongoing goal for the web mapping community (e.g., [CARTO's Builder](https://carto.com/builder/), [Mapbox's Studio](https://www.mapbox.com/mapbox-studio/), or [ESRI's Configurable Apps](http://www.esri.com/software/configurable-apps)). However, proficiency in the web scripting languages of HTML, SVG, CSS, and JavaScript allows web cartographers to enhance the user experience of web maps beyond what is provided by such tools. The growing availability of freely distributed, open source code libraries and open Application Programming Interfaces (APIs) provide web mappers with advanced geoprocessing, representation, and interaction capabilities. This short course will introduce students to the design and development practices of building customized web maps and explore a variety of thematic mapping techniques.
 
 ## Learning Objectives
 
@@ -12,7 +12,7 @@ By the end of this course, students will be able to:
 * Interpret the functionality provided by a web mapping library's Application Programming Interface (API) and adapt examples to specific use cases.
 * Construct functional thematic web maps using raster, point, line, and areal symbology.
 * Experiment with various plugins designed to extend the core functionality of a web mapping library.
-* Utilize a remote web server for hosting and sharing web maps
+* Utilize a remote web server for hosting and sharing web maps.
 
 ## Requirements
 
@@ -73,7 +73,7 @@ The second module explores cartographic techniques for representing point featur
 
 ### 3. Thematic Web Mapping: Value by Area
 
-The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The JavaScript library Turf provides powerful geoprocessing capabilities within the browser, without the need for a Desktop GIS. Client-side code dynamically classifies data for encoding areal units by saturation level
+The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The JavaScript library Turf provides powerful geoprocessing capabilities within the browser, without the need for a desktop GIS. Client-side code dynamically classifies data for encoding areal units by saturation level
 
 ### 4. Extending Web Maps with Plugins and Web Hosting
 
