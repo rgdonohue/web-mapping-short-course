@@ -73,7 +73,7 @@ The second module explores cartographic techniques for representing point featur
 
 ### 3. Thematic Web Mapping: Value by Area
 
-The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The JavaScript library Turf, which provides powerful geoprocessing capabilities within the browser without the need for a desktop GIS, performs point-in-polygon analysis to further analyze data. Client-side code then dynamically classifies data for encoding areal units by saturation level.
+The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The map then uses the JavaScript library Turf, which provides powerful geoprocessing capabilities within the browser without the need for a desktop GIS, to demonstrate a point-in-polygon analysis. Client-side code then dynamically classifies data for encoding areal units by saturation level.
 
 ### 4. Extending Web Maps with Plugins and Web Hosting
 
