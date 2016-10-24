@@ -65,15 +65,16 @@ The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geog
 
 ### 1. Drawing Data with Web Maps
 
-The introductory module acquaints students with the key components of a web mapping technology stack and the process for web map development: write code, refresh results, debug, repeat. The lesson underscores the importance of the GeoJSON data format and demonstrates techniques for its encoding and conversion from the Shapefile format. Students use JQuery to load data into a web script. A popular and mobile-friendly web mapping library, Leaflet, is then used to load a raster basemap, draw GeoJSON point data as marker icons and polyline and polygon data as vector geometries. Basic user interaction operators are used to retrieve specific feature information and toggle the visibility of overlays.
+The introductory lesson acquaints students with the key components of a web mapping technology stack and the development environment. Students will learn how to use Leaflet, a popular and mobile-friendly web mapping library, to build a simple web map using data converted to GeoJSON format. The class will explore techniques for drawing (or representing) geographic features such as points and lines on various available basemaps, styling these features, and adding basic user interaction to retreive specific information about meaningful places on the map.
+
 
 ### 2. Thematic Web Mapping: Point Symbology
 
-The second module explores cartographic techniques for representing point features within a web map. Students learn a process for loading Comma Separated Values (CSV) data into a script and converting them to GeoJSON before drawing them to the map. Custom written code then uses the visual variable of size to represent quantitative data attribute values and create a proportional symbol map. Students then extend the point symbol map to encode nominal attribute data using the visual variable of color (or hue) to produce a bi-variate map. The lesson demonstrates user interaction techniques for filtering represented data.
+The second lesson explores cartographic techniques for representing point features within a web map. Students learn a process for loading Comma Separated Values (CSV) data into a script and converting them to GeoJSON before drawing them to the map. Students are taught a technique for programmatically re-sizing circles based on quantitative data attribute values to create a proportional symbol map. Students then extend the point symbol map to encode nominal attribute data using color to produce a bi-variate map. The lesson concludes by introducing user interaction techniques for filtering represented data.
 
 ### 3. Thematic Web Mapping: Value by Area
 
-The third module explores techniques for making a value by area (or choropleth) map. Students use web-based tools first to convert areal geometries into the TopoJSON data format, which explicitly encodes spatial topology and reduces redundant shared borders within geometry data. The map then uses the JavaScript library Turf, which provides powerful geoprocessing capabilities within the browser without the need for a desktop GIS, to demonstrate a point-in-polygon analysis. Client-side code then dynamically classifies data for encoding areal units by saturation level.
+The third lesson explores techniques for making the popular value by area (or choropleth) map. Students use web-based tools first to convert polygons such as census tracks into appropriate data formats before writing code to dynamically classify data for representing different values. The lesson also introduces the popular JavaScript library Qjuery, to assist in loading data from external sources.
 
 ### 4. Extending Web Maps with Plugins and Web Hosting
 
