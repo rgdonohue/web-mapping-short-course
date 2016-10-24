@@ -18,7 +18,7 @@ Web Mapping is an interesting form of Cartography in that we largely make the ma
 
 Modern web browsers come installed with web developer tools. These tools come loaded with funtionality allowing you to investigate how a web page or application is structured and performing within your browser. Read more about using the [Chrome DevTools](https://developer.chrome.com/devtools), and as always look for the shortcuts to open and close the toolbar in your browser (Cmd + i in Mac OS).
 
-![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)
+![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)  
 *Figure 01. Opening Chrome's Web Developer Tools.*
 
 One of the most useful features is the [Console](https://developer.mozilla.org/en-US/docs/Web/API/Console), which allows you to log JavaScript values within the browser. You can type directly into the Console, or log values from a JavaScript file loaded within the browser. We'll be doing both as we build and debug web maps.
