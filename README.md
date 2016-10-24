@@ -56,7 +56,6 @@ The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geog
 
 ## Additional Help and Resources
 
-* Students within the course will be encouraged to join a course [Slack](https://slack.com) channel (name TBD) for asynchronous collaboration and peer help.
 * [Stack Overflow](http://stackoverflow.com/)
 * [GIS Stack Exchange](http://gis.stackexchange.com/)
 * [Leaflet Documentation](http://leafletjs.com/)
