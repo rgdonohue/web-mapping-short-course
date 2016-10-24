@@ -104,53 +104,45 @@
 		}
 
 		var map = L.map('map', options);
+		
 		var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 			subdomains: 'abcd',
 			maxZoom: 19
 		}).addTo(map);
 
-		
 		var myRoute = L.geoJson(data, {
-			
-			style : function(feature) {
-				
-				return {
-			
-					color: 'blue',
-					weight: 6
-
-				}
-
-				
-			},
 			
 			filter : function(feature) {
 				if(feature.geometry.type == "LineString") {
 					return feature;
 				}
 			},
-			
 			onEachFeature : function(feature, layer) {
 				
 				
+			},
+			style : function(feature) {
+				
+				return {
+					color: 'blue',
+					weight: 6
+				}	
 			}
 			
 		}).addTo(map);
 		
 		var myStops = L.geoJson(data, {
 			
-			onEachFeature : function(feature, layer) {
-				
-				layer.bindTooltip(feature.properties['name']);
-				
-			},
-			
 			filter : function(feature) {
 				if(feature.geometry.type == "Point") {
 					return feature;
 				}
+			},
+			onEachFeature : function(feature, layer) {
+				layer.bindTooltip(feature.properties['name']);	
 			}
+
 			
 		}).addTo(map);
 		

@@ -1,4 +1,4 @@
-# Open Source Web Cartography: A Mapping Short Course
+# Open Source Cartography: A Web Mapping Short Course
 
 The availability of code-free, push-button interfaces for making sophisticated web maps remains an ongoing goal for the web mapping community (e.g., [CARTO's Builder](https://carto.com/builder/), [Mapbox's Studio](https://www.mapbox.com/mapbox-studio/), or [ESRI's Configurable Apps](http://www.esri.com/software/configurable-apps)). However, proficiency in the web scripting languages of HTML, SVG, CSS, and JavaScript allows web cartographers to enhance the user experience of web maps beyond what is provided by such tools. The growing availability of freely distributed, open source code libraries and open Application Programming Interfaces (APIs) provide web mappers with advanced geoprocessing, representation, and interaction capabilities. This short course will introduce students to the design and development practices of building customized web maps and explore a variety of thematic mapping techniques.
 
@@ -66,7 +66,6 @@ The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geog
 ### 1. Drawing Data with Web Maps
 
 The introductory lesson acquaints students with the key components of a web mapping technology stack and the development environment. Students will learn how to use Leaflet, a popular and mobile-friendly web mapping library, to build a simple web map using data converted to GeoJSON format. The class will explore techniques for drawing (or representing) geographic features such as points and lines on various available basemaps, styling these features, and adding basic user interaction to retreive specific information about meaningful places on the map.
-
 
 ### 2. Thematic Web Mapping: Point Symbology
 
