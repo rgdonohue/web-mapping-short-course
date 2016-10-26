@@ -61,10 +61,12 @@ If the map has loaded correctly, you should see a basemap centered within Boulde
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
 **Figure 01.** The Leaflet map templete loaded in the browser.
 
-How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript.
+How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript. The web browser in turn creates a DOM or Document Object Module using this document.
 
 
 ### HTML (structure)
+
+The HTML structures and describes the content of our document. Some of its elements load additional files (such as CSS, JavaScript, or image files) into the document when the browser loads it.
 
 ```html
 <!DOCTYPE html>
@@ -102,8 +104,11 @@ How does the code contained within the *index.html* file work together to produc
 </html>
 ```
 
+Read more about HTML.
 
 ### CSS (form)
+
+If the HTML structures our content, the primarly role of CSS is to give that structure form. We apply CSS rules to the web page and elements we draw to the map to adjust the "look and feel" of the page and map.
 
 ```css
 body {
@@ -138,8 +143,12 @@ h1 {
 
 ```
 
+Read more about CSS.
 
 ### JavaScript (behavior)
+
+Finally, we use JavaScript to add event-driven and interaction behavior to our website; to make it dynamic! The following JavaScript creates the map within our page.
+
 
 ```javascript
 var options = {
@@ -163,9 +172,19 @@ L.marker(map.getCenter())
 	.openTooltip();
 ```
 
+Let's quickly review what the JavaScript above is doing.
 
-    
-## Scenario: mapping your route from home to campus
+The statement assigning an object to the variable `options` is specifying some of [Leaflet's map object's options](http://leafletjs.com/reference-1.0.0.html#map-option), here centering the map on Gugg and setting a zoom level to 12.
+
+The next statement creates a [Leaflet map object](http://leafletjs.com/reference-1.0.0.html#map), inserts it into a DOM element with the `id` value of `map` (i.e., our `<div id='map'></div>` within our HTML, and applies the options we specified. 
+
+The statement assigning a value to the variable `tiles` is a fun one. Leaflet uses this one to request a set of basemap tiles from a remote server. There are lots of these, and you can have fun swapping them out for one another until you find one appropriate for your map. Check out the options at [Leaflet Providers](https://leaflet-extras.github.io/leaflet-providers/preview/).
+
+The final two statements assign a string value `'Guggenheim Geography!'` to the variable `message` and uses the Leaflet [L.Marker class](http://leafletjs.com/reference-1.0.0.html#marker) to place a marker at the center of the map, as well as the [Leaflet L.Tooltip class](http://leafletjs.com/reference-1.0.0.html#tooltip) to display our message on top of the map layers.
+
+Let's now use this template to create a basic thematic map.
+
+## Mapping scenario: mapping your route from home to campus
 
 For this lesson, we're going to make a Leaflet map of your route to or from campus (pick one for now if they are different). The goal of the map is to allow the user to see your starting and ending points, the route between them, as well as a couple places of interest along the way. Perhaps you stop at a cafe or your place of work. We want to capture this geography, convert it to an appropriate data format, and display it on a web and mobile-friendly map. Additionally, we can allow the user to retrieve specific information about these places through interacting with the map (in this case, hovering over the map or touching on a marker).
 
