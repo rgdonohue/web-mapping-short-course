@@ -1,12 +1,10 @@
 # Lesson 01. Drawing Data with Web Maps
 
-Intro here bla bla bla.
-
 To begin, clone or [download the course repository](https://github.com/rgdonohue/web-mapping-short-course) to your computer.
 
 Clone or unzip the contents of the files in a known location (i.e., your Desktop or Documents). Briefly examine the contents of the directory named `module-01`. 
 
-## Setting up a development environment (15 min)
+## Setting up a development environment
 
 There are many resources and tools for getting going with web mapping. But sometimes getting the development environment set up so you can write code and test your map is overlooked. Let's consider the principle components of a web development process:
 
@@ -49,7 +47,7 @@ Open the **index.html** contained with the directory named **leaflet-map-templat
 
 
 
-## Introducing the building blocks of a "hello world" web map (15 min)
+## Introducing the building blocks of a "hello world" web map
 
 Let's begin with a simple working template for making a web map. 
 
@@ -113,7 +111,7 @@ GPX (the GPS Exchange Format) is a text-based format derived from XML and often 
 
 If you happen to use the popular [Strava](https://www.strava.com/) service, you can also download all your routes in GPX format.
 
-4. Next, we want to convert our data to another format: [GeoJSON](http://geojson.org/). GeoJSON is to web mapping what the Shapefile is to GIS.
+Next, we want to convert our data to another format: [GeoJSON](http://geojson.org/). GeoJSON is to web mapping what the Shapefile is to GIS.
 
 Navigate your browser to a website called [geojson.io](http://geojson.io/). You'll want to bookmark this website, as it's an extremely useful online tool.
 
@@ -143,7 +141,7 @@ This last step of modifying our data attributes, editing the geometries, and exp
 
 ### Step 2: Loading external data into a web document.
 
-There are various ways to load GeoJSON data into your web map. While the best (and more sophisticated) way is to make an [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming) request, we'll begin with a more simple solution.
+There are various ways to load GeoJSON data into your web map. While the best (and more sophisticated) way is to make an [AJAX](https://en.wikipedia.org/wiki/Ajax) request, we'll begin with a more simple solution.
 
 First, rename the *map.geojson* file to *route.js*. Then open the *route.js* file in your text editor and assign the entire GeoJSON structure to a variable named *data*:
 
@@ -157,16 +155,138 @@ Next open the *index.html* file within our *module-01/app/* directory.
 
 The script is currently loading the external using the `<script>` element, remote jQuery and Leaflet JavaScript files, before our custom code is executed. Let's load this JavaScript file into our document in the same way, being careful to specify a relative path to our file contained within the *data* directory.
 
+Add the line `<script src="data/route.js"></script>` to our *index.html file, beneath where we load the external JavaScript files but (importantly) BEFORE the `<script></script>` tags enclosing our custom JavaScript.
+
+```javascript
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+
+<script src="data/route.js"></script> // OUR DATA LOADED HERE!
+
+<script>
+
+	var options = {
+		center: [40.00816, -105.27423],
+		zoom: 12
+	}
+```
+
 This step saved our GeoJSON file within a JavaScript file, assigned it to a variable, and modified the HTML to load the file on page load.
 
 Now it's time to draw it to our map!
 
 ### Step 3: Drawing GeoJSON to the map.
 
+With our *route.js* file loaded into the document, and the Leaflet JavaScript library available to us in our script, we're ready to draw the GeoJSON data to the map. Leaflet makes this very easy for us with its [L.GeoJSON](http://leafletjs.com/reference-1.0.0.html#geojson) method.
+
+First, comment out the following code from the template:
+
+```javascript
+//		var message = 'Guggenheim Geography!';
+//
+//		L.marker(map.getCenter())
+//			.bindTooltip(message)
+//			.addTo(map)
+//			.openTooltip();
+```
+
+Next, write or paste the following statements beneath that commented out code:
+
+```javascript
+var myRoute L.geoJson(data).addTo(map);
+
+map.fitBounds(myRoute.getBounds());
+
+```
+
+Save your file, refresh your browser, and you can see that Leaflet has drawn your data to the map. As always, keep your developer tools open and check for any JavaScript errors in the Console. You may need to re-adust the pan and zoom level to see the extent of your data.
+
+![Drawing the GeoJSON data to the map using L.GeoJson](lesson-images/draw-data.gif)  
+**Figure 01.** Drawing the GeoJSON data to the map using L.GeoJson.
+
+We've successfully drawn the the GeoJSON data to the Leaflet map using Leaflet's default styling options. The LineString feature is now rendered in the browser as an SVG path element within Leaflet's [overlayPane](http://leafletjs.com/reference-1.0.0.html#map-overlaypane) and the Point features are rendered on top of the line within Leaflet's [markerPane](http://leafletjs.com/reference-1.0.0.html#map-markerpane)
+
+![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/inspect-elements.gif)  
+**Figure 01.** Inspecting the SVG and img elements drawn by Leaflet.
+
+Next, let's do some simple adjustments to the styles applied to these features.
+
+### Step 4: Styling the features.
+
+Since we want to style the line representing our route and the markers representing our pertinant places, it makes sense to separate these into different objects within our script.
+
+Replace the line `var myRoute L.geoJson(data).addTo(map);` with the following code block:
+
+```javascript
+var myRoute = L.geoJson(data, {
+
+	filter : function(feature) {
+		if(feature.geometry.type == "LineString") {
+			return feature;
+		}
+	},
+	style : function(feature) {
+
+		return {
+			color: "#005DAA",
+			weight: 4,
+			opacity: .6,
+			dashArray: "5, 5"
+		}		
+	}
+
+}).addTo(map);
+
+var myStops = L.geoJson(data, {
+
+	filter : function(feature) {
+		if(feature.geometry.type == "Point") {
+			return feature;
+		}
+	},
+	onEachFeature : function(feature, layer) {
+
+		console.log(feature.properties)
+	}
+
+}).addTo(map);
+```
+
+Save your file and refresh the browser. You'll see that the line is now drawn according to these rules: 
+
+```javascript
+color: "#005DAA",
+weight: 4,
+opacity: .6,
+dashArray: "5, 5"
+```
+
+These are Leaflet styling options inhereted from the [L.Path](http://leafletjs.com/reference-1.0.0.html#path) class. Play around with these values to change the represenation of the line.
+
+We also see that we've logged some values to the Console, accessing these values through `feature.properties` as the L.GeoJson's `onEachFeature` method loops through our features. 
+
+We can use this `onEachFeature` method not only to access information stored originally within our GeoJSON data, but also to add some interactivity to our map.
+
+### Step 5: Adding user interaction.
+
+Replace the `console.log()` statement with the following statement:
+
+```javascript
+layer.bindTooltip(feature.properties['name']);	
+```
+
+Now when you test in the browser, you'll verify that the user will be able to retreive specific information about these features by mousing over (or touching on a touchscreen interface).
+
+![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/inspect-elements.gif)  
+**Figure 01.** Inspecting the SVG and img elements drawn by Leaflet.
+
+### Step 6: Making the map whole: titles, information, and metadata.
+
+The last step of making many maps is refining the design and clarifying the message or experience. Adding information about the map through descriptive (or fun) titles and side columns helps guide your user's understanding of the map. Also, be sure to include the map author (you), as well as any useful links to your online portfolios or work.
+
+
+## Further challenges
 
 
 
 
-
-
-	

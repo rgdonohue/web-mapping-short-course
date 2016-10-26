@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
 
@@ -78,7 +79,7 @@
 
 <body>
 
-	<h1>CU Boulder Route</h1>
+	<h1>Living the Dream</h1>
 
 	<div id='map'></div>
 
@@ -95,13 +96,14 @@
 	</section>
 
 	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-	<script src="data/data.js"></script>
+	<script src="data/route.js"></script>
 	<script>
 		
 		var options = {
 			center: [40.00816, -105.27423],
 			zoom: 16
 		}
+		
 
 		var map = L.map('map', options);
 		
@@ -110,7 +112,16 @@
 			subdomains: 'abcd',
 			maxZoom: 19
 		}).addTo(map);
-
+		
+//		var message = 'Guggenheim Geography!';
+//
+//		L.marker(map.getCenter())
+//			.bindTooltip(message)
+//			.addTo(map)
+//			.openTooltip();
+		
+//		L.geoJson(data).addTo(map);
+		
 		var myRoute = L.geoJson(data, {
 			
 			filter : function(feature) {
@@ -118,15 +129,13 @@
 					return feature;
 				}
 			},
-			onEachFeature : function(feature, layer) {
-				
-				
-			},
 			style : function(feature) {
 				
 				return {
-					color: 'blue',
-					weight: 6
+					color: "#005DAA",
+					weight: 4,
+					opacity: .6,
+					dashArray: "5, 5"
 				}	
 			}
 			
@@ -140,17 +149,20 @@
 				}
 			},
 			onEachFeature : function(feature, layer) {
+
 				layer.bindTooltip(feature.properties['name']);	
 			}
-
-			
+	
 		}).addTo(map);
 		
 		map.fitBounds(myRoute.getBounds());
-	
+		
 		
 	</script>
 
 </body>
 
 </html>
+
+	
+		
