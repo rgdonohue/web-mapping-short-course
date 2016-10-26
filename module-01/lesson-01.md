@@ -16,12 +16,12 @@ Web Mapping is an unusual form of Cartography in that we primarily make the maps
 
 Modern web browsers come installed with web developer tools. These tools come loaded with functionality allowing you to investigate how a web page or application is structured and performing within your browser. Read more about using the [Chrome DevTools](https://developer.chrome.com/devtools), and as always look for the shortcuts to open and close the toolbar in your browser (Cmd + i in Mac OS).
 
+Open your web developer toolbar.
+
 ![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)  
 **Figure 01.** Opening Chrome's Web Developer Tools.
 
 One of the most useful features is the [Console](https://developer.mozilla.org/en-US/docs/Web/API/Console), which allows you to log JavaScript values within the browser. You can type directly into the Console, or log values from a JavaScript file loaded within the browser. We'll be doing both as we build and debug web maps.
-
-Open your web developer toolbar.
 
 **A Web Server**
 
@@ -30,8 +30,8 @@ While a web browser application interprets and renders the files that compose ou
 We develop a web application "locally" on our computer, so it's best to use a local server, or a "local test server," to do this. There are a few options for getting a local test server running on your machine.
 
 1. [Python's SimpleHTTPServer](http://www.pythonforbeginners.com/modules-in-python/how-to-use-simplehttpserver/) module
-2. A WAMP or LAMP installation on your machine
-3. The use of Brackets text editor
+2. A [WAMP server](http://www.wampserver.com/en/) for Windows or a [Mac OS alternative](http://ampps.com/download)
+3. The use of Brackets text editor (see below)
 
 **A Text Editor**
 
@@ -56,7 +56,7 @@ Let's begin with a simple working template for making a web map.
 
 Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/leaflet-map-template/index.html)* within your browser. Be sure open your file using the Live Preview of Brackets or using another local server.
 
-If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker.
+If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
 
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
 **Figure 01.** The Leaflet map templete loaded in the browser.
@@ -75,11 +75,11 @@ How does the code contained within the *index.html* file work together to produc
 	<title>Leaflet Map Template</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	
-	<! -- load additional CSS files here -- >
+	<!-- load additional CSS files here -->
 
 	<style>
 	
-		<! -- CSS rules go here -- >
+		<!-- CSS rules go here -->
 		
 	</style>
 </head>
@@ -88,12 +88,12 @@ How does the code contained within the *index.html* file work together to produc
 
 	<h1>This is the title to my awesome map.</h1>
 
-	<! -- CSS rules go here -- >
+	<!-- CSS rules go here -->
 
-	<! -- load additional JS files here -- >
+	<!-- load additional JS files here -->
 	<script>
 		
-		<! -- JavaScript Goes Here -- >
+		<!-- JavaScript Goes Here -->
 		
 	</script>
 
@@ -105,7 +105,7 @@ How does the code contained within the *index.html* file work together to produc
 
 ### CSS (form)
 
-```
+```css
 body {
 	margin: 0;
 	padding: 0;
