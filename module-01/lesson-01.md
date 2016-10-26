@@ -54,19 +54,21 @@ Using your text editor, open the *module-01/* directory. A good text editor allo
 
 Let's begin with a simple working template for making a web map. 
 
-Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/leaflet-map-template/index.html)* within your browser. Be sure open your file using the Live Preview of Brackets or using another local server.
+Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/leaflet-map-template/index.html)* within your browser. Be sure to open your file using the Live Preview of Brackets or using another local server.
 
 If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
 
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
-**Figure 02.** The Leaflet map templete loaded in the browser.
+**Figure 02.** The Leaflet map templete loaded in the browser, with no errors in the Console.
 
 How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript. The web browser in turn creates a DOM or Document Object Module using this document.
 
 
 ### HTML (structure)
 
-The HTML structures and describes the content of our document. Some of its elements load additional files (such as CSS, JavaScript, or image files) into the document when the browser loads it.
+The HTML structures and describes the content of our document. Some of its elements (`<style>` and `<script>` tags) load additional files such as CSS, JavaScript, or image files into the document upon page load.
+
+Study this skeleton HTML template:
 
 ```html
 <!DOCTYPE html>
@@ -104,7 +106,7 @@ The HTML structures and describes the content of our document. Some of its eleme
 </html>
 ```
 
-Read more about HTML.
+Read more about [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML).
 
 ### CSS (form)
 
@@ -143,7 +145,7 @@ h1 {
 
 ```
 
-Read more about CSS.
+Read more about [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS).
 
 ### JavaScript (behavior)
 
@@ -172,15 +174,17 @@ L.marker(map.getCenter())
 	.openTooltip();
 ```
 
-Let's quickly review what the JavaScript above is doing.
+Let's quickly review what the JavaScript above is doing:
 
-The statement assigning an object to the variable `options` is specifying some of [Leaflet's map object's options](http://leafletjs.com/reference-1.0.0.html#map-option), here centering the map on Gugg and setting a zoom level to 12.
+1. The statement assigning an object to the variable `options` is specifying some of [Leaflet's map object's options](http://leafletjs.com/reference-1.0.0.html#map-option), here centering the map on Guggenheim and setting a zoom level to 12.
 
-The next statement creates a [Leaflet map object](http://leafletjs.com/reference-1.0.0.html#map), inserts it into a DOM element with the `id` value of `map` (i.e., our `<div id='map'></div>` within our HTML, and applies the options we specified. 
+2. The next statement creates a [Leaflet map object](http://leafletjs.com/reference-1.0.0.html#map), inserts it into a DOM element with the `id` value of `map` (i.e., our `<div id='map'></div>` within our HTML, and applies the options we specified. 
 
-The statement assigning a value to the variable `tiles` is a fun one. Leaflet uses this one to request a set of basemap tiles from a remote server. There are lots of these, and you can have fun swapping them out for one another until you find one appropriate for your map. Check out the options at [Leaflet Providers](https://leaflet-extras.github.io/leaflet-providers/preview/).
+3. The statement assigning a value to the variable `tiles` is a fun one. Leaflet uses this one to request a set of basemap tiles from a remote server. There are lots of these, and you can have fun swapping them out for one another until you find one appropriate for your map. Check out the options at [Leaflet Providers](https://leaflet-extras.github.io/leaflet-providers/preview/).
 
-The final two statements assign a string value `'Guggenheim Geography!'` to the variable `message` and uses the Leaflet [L.Marker class](http://leafletjs.com/reference-1.0.0.html#marker) to place a marker at the center of the map, as well as the [Leaflet L.Tooltip class](http://leafletjs.com/reference-1.0.0.html#tooltip) to display our message on top of the map layers.
+4. The final two statements assign a string value `'Guggenheim Geography!'` to the variable `message` and uses the Leaflet [L.Marker class](http://leafletjs.com/reference-1.0.0.html#marker) to place a marker at the center of the map, as well as the [Leaflet L.Tooltip class](http://leafletjs.com/reference-1.0.0.html#tooltip) to display our message on top of the map layers.
+
+Read more about [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 Let's now use this template to create a basic thematic map.
 
@@ -281,7 +285,7 @@ Next open the *index.html* file within our *module-01/app/* directory.
 
 The script is currently loading the external using the `<script>` element, remote jQuery and Leaflet JavaScript files before our custom code executes. Let's load this JavaScript file into our document, in the same way, being careful to specify a relative path to our file contained within the *data* directory.
 
-Add the line `<script src="data/route.js"></script>` to our *index.html file, beneath where we load the external JavaScript files but (importantly) BEFORE the `<script></script>` tags enclosing our custom JavaScript.
+Add the line `<script src="data/route.js"></script>` to our *index.html* file, beneath where we load the external JavaScript files but (importantly) BEFORE the `<script></script>` tags enclosing our custom JavaScript.
 
 ```javascript
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -327,19 +331,21 @@ map.fitBounds(myRoute.getBounds());
 
 Save your file, refresh your browser, and you can see that Leaflet has drawn your data to the map. As always, keep your developer tools open and check for any JavaScript errors in the Console. You may need to re-adust the pan and zoom level to see the extent of your data.
 
-![Drawing the GeoJSON data to the map using L.GeoJson](lesson-images/draw-data.gif)  
+![Drawing the GeoJSON data to the map using L.GeoJson](lesson-images/draw-geojson.gif)  
 **Figure 07.** Drawing the GeoJSON data to the map using L.GeoJson.
 
 We've successfully drawn the the GeoJSON data to the Leaflet map using Leaflet's default styling options. Leaflet has rendered the LineString feature in the browser as an SVG path element within Leaflet's [overlayPane](http://leafletjs.com/reference-1.0.0.html#map-overlaypane) and the Point features on top of the line within Leaflet's [markerPane](http://leafletjs.com/reference-1.0.0.html#map-markerpane)
 
-![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/inspect-elements.gif)  
-**Figure 08.** Inspecting the SVG and img elements drawn by Leaflet.
+![Inspecting the SVG and img elements within the DOM, as drawn by Leaflet](lesson-images/inspect-elements.gif)  
+**Figure 08.** Inspecting the SVG and img elements within the DOM, as drawn by Leaflet.
 
 Next, let's do some simple adjustments to the styles applied to these features.
 
 ### Step 4: Styling the features.
 
 Since we want to style the line representing our route and the markers representing our pertinent places, it makes sense to separate these into different objects within our script. We're going to call the `L.geoJson()` method twice and filter the data based on its geometry type (recall that we have both LineString and Point features within this GeoJSON).
+
+To do so, we'll use [L.GeoJson's filter method](http://leafletjs.com/reference-1.0.0.html#geojson-filter). 
 
 Replace the line `var myRoute L.geoJson(data).addTo(map);` with the following code block:
 
@@ -397,7 +403,7 @@ These are Leaflet styling options inherited from the [L.Path](http://leafletjs.c
 
 We also see that we've logged some values to the Console, accessing these values through `feature.properties` as the L.GeoJson's `onEachFeature` method loops through our features. 
 
-We can use this `onEachFeature` method not only to access information stored originally within our GeoJSON data but also to add some interactivity to our map.
+We can use L.GeoJSON's `onEachFeature` method not only to access information stored originally within our GeoJSON data but also to add some interactivity to our map.
 
 ### Step 5: Adding user interaction.
 
