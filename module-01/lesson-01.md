@@ -59,7 +59,7 @@ Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-map
 If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
 
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
-**Figure 01.** The Leaflet map templete loaded in the browser.
+**Figure 02.** The Leaflet map templete loaded in the browser.
 
 How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript. The web browser in turn creates a DOM or Document Object Module using this document.
 
@@ -201,7 +201,7 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
 2. Then use the Directions functionality to determine the route from your home to your building. **BE CAREFUL:** This map is going to end up on the web. Do you want people knowing your exact address? Maybe not! Use an approximate address location instead. Also, be sure to select the mode of travel. Do you drive a car, ride a bus, walk, or ride your bike? If you fly a plane to get to campus, that's incredible!
 
 ![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
-**Figure XX.** Using Google Maps to find a route and mode from home to Campus.
+**Figure 03.** Using Google Maps to find a route and mode from home to Campus.
 
 Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
 
@@ -212,7 +212,7 @@ When you have highlighted your desired route in blue on the map, copy the entire
 Paste your URL from Google Maps into the form and hit "Let's Go." 
 
 ![Converting Google Maps Route to GPX](lesson-images/mapstogpx.png)  
-**Figure 01.** Converting Google Maps Route to GPX.
+**Figure 04.** Converting Google Maps Route to GPX.
 
 The site will make the necessary conversion and prompt the download of the GPX file (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
 
@@ -248,12 +248,12 @@ Take some time to play around with the geojson.io website and your data.
 Note that our process has retained some data attributes from Google Maps that we don't need. We can remove these, and edit the existing data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example, you could modify your route.
 
 ![Removing unneeded attribute properties in geojson.io](lesson-images/geojson-io-edit.gif)  
-**Figure XX.** Removing unneeded attribute properties in geojson.io.
+**Figure 05.** Removing unneeded attribute properties in geojson.io.
 
 Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
 
 ![Adding a placemarker in geojson.io](lesson-images/geojson-io-add-point.gif)  
-**Figure XX.** Adding a placemarker in geojson.io.
+**Figure 06.** Adding a placemarker in geojson.io.
 
 Once you finish editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
 
@@ -303,7 +303,7 @@ Now it's time to draw it to our map!
 
 ### Step 3: Drawing GeoJSON to the map.
 
-With our *route.js* file loaded into the document and the Leaflet JavaScript library available to us in our script, we're ready to draw the GeoJSON data to the map. Leaflet makes this very easy for us with its [L.GeoJSON](http://leafletjs.com/reference-1.0.0.html#geojson) method.
+With our *route.js* file loaded into the document and the Leaflet JavaScript library available to us in our script, we're ready to draw the GeoJSON data to the map. Leaflet makes this very easy for us with its [L.GeoJSON](http://leafletjs.com/reference-1.0.0.html#geojson) method. You'll likely want to spend some time studying these options and methods.
 
 First, comment out the following code from the template:
 
@@ -319,7 +319,7 @@ First, comment out the following code from the template:
 Next, write or paste the following statements beneath that commented out code:
 
 ```javascript
-var myRoute L.geoJson(data).addTo(map);
+var myRoute = L.geoJson(data).addTo(map);
 
 map.fitBounds(myRoute.getBounds());
 
@@ -328,18 +328,18 @@ map.fitBounds(myRoute.getBounds());
 Save your file, refresh your browser, and you can see that Leaflet has drawn your data to the map. As always, keep your developer tools open and check for any JavaScript errors in the Console. You may need to re-adust the pan and zoom level to see the extent of your data.
 
 ![Drawing the GeoJSON data to the map using L.GeoJson](lesson-images/draw-data.gif)  
-**Figure 01.** Drawing the GeoJSON data to the map using L.GeoJson.
+**Figure 07.** Drawing the GeoJSON data to the map using L.GeoJson.
 
 We've successfully drawn the the GeoJSON data to the Leaflet map using Leaflet's default styling options. Leaflet has rendered the LineString feature in the browser as an SVG path element within Leaflet's [overlayPane](http://leafletjs.com/reference-1.0.0.html#map-overlaypane) and the Point features on top of the line within Leaflet's [markerPane](http://leafletjs.com/reference-1.0.0.html#map-markerpane)
 
 ![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/inspect-elements.gif)  
-**Figure 01.** Inspecting the SVG and img elements drawn by Leaflet.
+**Figure 08.** Inspecting the SVG and img elements drawn by Leaflet.
 
 Next, let's do some simple adjustments to the styles applied to these features.
 
 ### Step 4: Styling the features.
 
-Since we want to style the line representing our route and the markers representing our pertinent places, it makes sense to separate these into different objects within our script.
+Since we want to style the line representing our route and the markers representing our pertinent places, it makes sense to separate these into different objects within our script. We're going to call the `L.geoJson()` method twice and filter the data based on its geometry type (recall that we have both LineString and Point features within this GeoJSON).
 
 Replace the line `var myRoute L.geoJson(data).addTo(map);` with the following code block:
 
@@ -378,7 +378,13 @@ var myStops = L.geoJson(data, {
 }).addTo(map);
 ```
 
-Save your file and refresh the browser. You'll see we've now drawn the line according to these rules: 
+Save your file and refresh the browser. 
+
+![The map line feature styled with Leaflet Path options](lesson-images/geojson-styled.png)  
+**Figure 09.** The map line feature styled with Leaflet Path options.
+
+
+You'll see we've now drawn the line according to these rules: 
 
 ```javascript
 color: "#005DAA",
@@ -401,10 +407,10 @@ Replace the `console.log()` statement with the following statement:
 layer.bindTooltip(feature.properties['name']);    
 ```
 
-Now when you test in the browser, you'll verify that the user will be able to retrieve specific information about these features by mousing over (or touching on a touchscreen interface).
+Now when you test in the browser, you'll verify that the user will be able to retrieve specific information about these features by mousing over (or touching on a touchscreen interface) a specific feature.
 
-![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/inspect-elements.gif)  
-**Figure 01.** Inspecting the SVG and img elements drawn by Leaflet.
+![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/ui-tooltip.gif)  
+**Figure 10.** Inspecting the SVG and img elements drawn by Leaflet.
 
 ### Step 6: Making the map whole: titles, information, and metadata.
 
