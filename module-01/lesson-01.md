@@ -45,20 +45,125 @@ Brackets is particularly handy if you don't have a local server running or don't
 
 **Directories, Files, Data, and Media**
 
-The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named **index.html**.
+The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named *index.html*.
 
-Using your text editor, open the **module-01** directory. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
+Using your text editor, open the *module-01/* directory. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
 
-Open the **index.html** contained with the directory named **leaflet-map-template** and open this file within your browser. Be sure open your file using the Live Preview of Brackets or using another local server.
 
 ## Introducing the building blocks of a "hello world" web map
 
 Let's begin with a simple working template for making a web map. 
 
-    * HTML (structure)
-    * CSS (form)
-    * JavaScript (behavior)
-    * loading raster tiles into a web map
+Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/leaflet-map-template/index.html)* within your browser. Be sure open your file using the Live Preview of Brackets or using another local server.
+
+If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker.
+
+![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
+**Figure 01.** The Leaflet map templete loaded in the browser.
+
+How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript.
+
+
+### HTML (structure)
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=utf-8 />
+	<title>Leaflet Map Template</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	
+	<! -- load additional CSS files here -- >
+
+	<style>
+	
+		<! -- CSS rules go here -- >
+		
+	</style>
+</head>
+
+<body>
+
+	<h1>This is the title to my awesome map.</h1>
+
+	<! -- CSS rules go here -- >
+
+	<! -- load additional JS files here -- >
+	<script>
+		
+		<! -- JavaScript Goes Here -- >
+		
+	</script>
+
+</body>
+
+</html>
+```
+
+
+### CSS (form)
+
+```
+body {
+	margin: 0;
+	padding: 0;
+	background: whitesmoke;
+	font-family: "Noto Sans", sans-serif;
+	color: #3d3d3d;
+}
+
+h1 {
+	position: absolute;
+	margin-top: 0;
+	top: 10px;
+	left: 45px;
+	font-size: 2em;
+	font-family: "Lora", serif;
+	letter-spacing: .04em;
+	padding: 10px 15px;
+	background: rgba(256, 256, 256, .4);
+	border: 1px solid grey;
+	border-radius: 3px;
+	z-index: 800;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+```
+
+
+### JavaScript (behavior)
+
+```javascript
+var options = {
+	center: [40.00816, -105.27423],
+	zoom: 12
+}
+
+var map = L.map('map', options);
+
+var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+}).addTo(map);
+
+var message = 'Guggenheim Geography!';
+
+L.marker(map.getCenter())
+	.bindTooltip(message)
+	.addTo(map)
+	.openTooltip();
+```
+
+
     
 ## Scenario: mapping your route from home to campus
 
