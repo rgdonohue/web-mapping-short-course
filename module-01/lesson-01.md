@@ -19,7 +19,7 @@ Web Mapping is an interesting form of Cartography in that we largely make the ma
 Modern web browsers come installed with web developer tools. These tools come loaded with funtionality allowing you to investigate how a web page or application is structured and performing within your browser. Read more about using the [Chrome DevTools](https://developer.chrome.com/devtools), and as always look for the shortcuts to open and close the toolbar in your browser (Cmd + i in Mac OS).
 
 ![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)  
-**Figure 01. Opening Chrome's Web Developer Tools.**
+**Figure 01.** Opening Chrome's Web Developer Tools.
 
 One of the most useful features is the [Console](https://developer.mozilla.org/en-US/docs/Web/API/Console), which allows you to log JavaScript values within the browser. You can type directly into the Console, or log values from a JavaScript file loaded within the browser. We'll be doing both as we build and debug web maps.
 
@@ -64,6 +64,8 @@ Let's begin with a simple working template for making a web map.
 
 For this lesson we're going to make a Leaflet map of your route to or from campus (pick one for now if they are different). The goal of the map is to allow the user to see your starting and ending points, the route between them, as well as a couple places of interest along the way. Perhaps you stop at a cafe or your place of work. We want to capture this geography, convert it to an apppropriate data format, and display it on a web and mobile-friendly map. Additionally, we can allow the user to retrieve specific information about these places through interacting with the map (in this case, hovering over the map or touching on a marker).
 
+To begin, copy the *leaflet-map-template/* directory and rename it to *app*.
+
 ### Step 1: Get the Data
 
 To get our data and convert it to an appropriate format for web mapping, we're going to use a few web-based tools. 
@@ -81,8 +83,66 @@ Google Maps allows you to pick between alternative routes, as well as to drag th
 
 When you have highlighted your desired route in blue on the map, copy the enture URL from the address bar (highlight it, and select *Edit -> Copy* or *Cntr + C*).
 
-Next, go to a website named Maps To 
+3. Next, go to a website named [Maps To GPX](https://mapstogpx.com/), a tool that, "accepts a link to pre-made Google Directions and converts them to a GPX file." This is perfect for us!
+
+Paste your URL from Google Maps into the form and hit "Let's Go." 
+
+![Converting Google Maps Route to GPX](lesson-images/)  
+**Figure 01.** Converting Google Maps Route to GPX.
+
+The site will make the necessary conversion and prompt the download of the GPX file (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
+
+GPX (the GPS Exchange Format) is a text-based format derived from XML and often used to encode GPS data. You can open this file in your text editor to examine the contents. We're not too interested in particular file, but it looks like this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="mapstogpx.com" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+  <metadata>
+    <link href="http://www.mapstogpx.com">
+      <text>Sverrir Sigmundarson</text>
+    </link>
+    <!--desc>Map data ©2016 Google</desc-->
+    <!--url>https://www.google.co.uk/maps/dir/40.035196,-105.2809662/40.008162,-105.27423/@40.0215947,-105.2933284,14z/data=!3m1!4b1!4m2!4m1!3e1?hl=en</url-->
+    <time>2016-10-23T15:57:30Z</time>
+  </metadata>
+  <wpt lat="40.035196" lon="-105.2809662">
+    <name>3315 13th Street</name>
+    <desc>3315 13th Street, Boulder, CO 80304, USA</desc>
+  </wpt>
+```
+
+If you happen to use the popular [Strava](https://www.strava.com/) service, you can also download all your routes in GPX format.
+
+4. Next, we want to convert our data to another format: [GeoJSON](http://geojson.org/). GeoJSON is to web mapping what the Shapefile is to GIS.
+
+Navigate your browser to a website called [geojson.io](http://geojson.io/). You'll want to bookmark this website, as it's an extremely useful online tool.
+
+Open your GPX file in the geojson.io web application. Study the code generated in the right-hand panel. This is a valid GeoJSON encoding of your route. Unlike Shapefiles, GeoJSON can encode multiple geometry types within a single Feature Collection. Note that  Features have both `properties` and `geometry` attributes. The `"LineString"` type contains all the points that make up the route, while the two `"Point"` type Features encode the endpoints of the route.
+
+Take some time to play around with the geojson.io website and your data.
+
+![Removing unneeded attribute properties in geojson.io](lesson-images/)  
+**Figure XX.** Removing unneeded attribute properties in geojson.io.
+
+Note that some data attributes have been retained from Google Maps that we don't need. We can remove these, and edit the exisiting data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example you could modify your route.
+
+Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
+
+![Adding a placemarker in geojson.io](lesson-images/)  
+**Figure XX.** Adding a placemarker in geojson.io.
+
+Once you're done editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
+
+You can open this file in your text editor to see that it's the same as what geojson.io displayed.
+
+```js
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Northbrook Drive to Guggenheim Geography"},"geometry":{"type":"LineString","coordinates":[[-105.2601844,40.0446618],[-105.26024,40.04472],[-105.2602362,40.0447162],[-105.26029,40.04469],[-105.26033,40.04466],[-105.26043,40.04458],[-105.26056,40.04451],[-105.26065,40.04448],[-105.2607,40.04447],[-105.26073,40.04447],[-105.26075,40.04446],[-105.26078,40.04443],[-105.2608,40.04439],[-105.26083,40.04438],[-105.26086,40.04437],[-105.26093,40.04436],[-105.2609275,40.0443637],[-105.26094,40.0444],[-105.26095,40.04446]
+```
+
+This last step of modifying our data attributes, editing the geometries, and exporting to GeoJSON wraps up our data aquisition and transformation process. Now it's time to draw it to our map!
 
 
-https://mapstogpx.com/
+
+
+
 	
