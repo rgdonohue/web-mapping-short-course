@@ -75,11 +75,11 @@ How does the code contained within the *index.html* file work together to produc
 	<title>Leaflet Map Template</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	
-	<!-- load additional CSS files here -->
+	<!-- load additional CSS files here and this is an HTML comment -->
 
 	<style>
 	
-		<!-- CSS rules go here -->
+		/* CSS rules go here and this is a CSS comment */
 		
 	</style>
 </head>
@@ -88,12 +88,12 @@ How does the code contained within the *index.html* file work together to produc
 
 	<h1>This is the title to my awesome map.</h1>
 
-	<!-- CSS rules go here -->
+	<!-- more HTML goes here -->
 
 	<!-- load additional JS files here -->
 	<script>
 		
-		<!-- JavaScript Goes Here -->
+		// JavaScript goes here and this is a JS comment
 		
 	</script>
 
