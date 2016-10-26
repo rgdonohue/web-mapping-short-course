@@ -19,7 +19,8 @@ In the meanwhile, consider reading the following:
 
 * [How web maps work](https://www.mapbox.com/help/how-web-maps-work/)
 * [Leaflet Quick Start Guide](http://leafletjs.com/examples/quick-start/)
+* [Maptime Lessons and Resources](http://maptime.io/lessons-resources/)
 
-If you have no background in web design or development, some people find the free codeacademy courses on [HTML and CSS](https://www.codecademy.com/learn/web) or [JavaScript](https://www.codecademy.com/learn/javascript) helpful.
+If you have no background in web design or development, some people find the free Codeacademy courses on [HTML and CSS](https://www.codecademy.com/learn/web) or [JavaScript](https://www.codecademy.com/learn/javascript) helpful.
 
 Feel free to email me with questions at donohuer@colorado.edu.

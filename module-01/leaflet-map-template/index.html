@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset=utf-8 />
-	<title>CU Boulder Route</title>
+	<title>Leaflet Map Template Full Width</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
@@ -22,7 +22,7 @@
 		
 		h1 {
 			position: absolute;
-			margin: 0 15px 0;
+			margin-top: 0;
 			top: 10px;
 			left: 45px;
 			font-size: 2em;
@@ -73,12 +73,20 @@
 		a:hover {
 			text-decoration: underline;
 		}
+		
+		ul {
+			padding-left: 20px;
+		}
+		
+		li {
+			margin: 10px 0
+		}
 	</style>
 </head>
 
 <body>
 
-	<h1>CU Boulder Route</h1>
+	<h1>This is the title to my awesome map.</h1>
 
 	<div id='map'></div>
 
@@ -92,62 +100,36 @@
 
 		<p>Map authored by me, MY NAME</p>
 
+		<ul>
+			<li>See my projects on GitHub: <a href="https://github.com/newmapsplus">rgdonohue</a>.</li>
+			<li>Follow me on twitter: <a href="https://twitter.com/rgdonohue">@rgdonohue</a>.</li>
+			<li>Visit my <a href='#'>mapping portfolio</a>.</li>
+		</ul>
+
 	</section>
 
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-	<script src="data/data.js"></script>
 	<script>
 		
 		var options = {
 			center: [40.00816, -105.27423],
-			zoom: 16
+			zoom: 12
 		}
 
 		var map = L.map('map', options);
-		
 		var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 			subdomains: 'abcd',
 			maxZoom: 19
 		}).addTo(map);
 
-		var myRoute = L.geoJson(data, {
-			
-			filter : function(feature) {
-				if(feature.geometry.type == "LineString") {
-					return feature;
-				}
-			},
-			onEachFeature : function(feature, layer) {
-				
-				
-			},
-			style : function(feature) {
-				
-				return {
-					color: 'blue',
-					weight: 6
-				}	
-			}
-			
-		}).addTo(map);
-		
-		var myStops = L.geoJson(data, {
-			
-			filter : function(feature) {
-				if(feature.geometry.type == "Point") {
-					return feature;
-				}
-			},
-			onEachFeature : function(feature, layer) {
-				layer.bindTooltip(feature.properties['name']);	
-			}
+		var message = 'Guggenheim Geography!';
 
-			
-		}).addTo(map);
-		
-		map.fitBounds(myRoute.getBounds());
-	
+		L.marker(map.getCenter())
+			.bindTooltip(message)
+			.addTo(map)
+			.openTooltip();
 		
 	</script>
 
