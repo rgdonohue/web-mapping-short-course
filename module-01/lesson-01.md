@@ -66,7 +66,7 @@ For this lesson we're going to make a Leaflet map of your route to or from campu
 
 To begin, copy the *leaflet-map-template/* directory and rename it to *app*.
 
-### Step 1: Get the Data
+### Step 1: Data aquisition and conversion
 
 To get our data and convert it to an appropriate format for web mapping, we're going to use a few web-based tools. 
 
@@ -76,7 +76,7 @@ Let's first use a fantastic (proproritary) mapping resource: [Google Maps](https
 
 2. Then use the Directions functionality to determine the route from your home to your building. **BE CAREFUL:** This map is going to end up on the web. Do you want people knowing your exact address? Maybe not! Use an approximate address location instead. Also, be sure to select the mode of travel. Do you drive a car, ride a bus, walk, or ride your bike? If you fly a plane to get to campus, that's incredible!
 
-![Using Google Maps to find a route and mode from home to Campus](lesson-images/)  
+![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
 **Figure XX.** Using Google Maps to find a route and mode from home to Campus.
 
 Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry to much about it. We'll be using another tool to do this later on.
@@ -87,7 +87,7 @@ When you have highlighted your desired route in blue on the map, copy the enture
 
 Paste your URL from Google Maps into the form and hit "Let's Go." 
 
-![Converting Google Maps Route to GPX](lesson-images/)  
+![Converting Google Maps Route to GPX](lesson-images/mapstogpx.png)  
 **Figure 01.** Converting Google Maps Route to GPX.
 
 The site will make the necessary conversion and prompt the download of the GPX file (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
@@ -121,14 +121,14 @@ Open your GPX file in the geojson.io web application. Study the code generated i
 
 Take some time to play around with the geojson.io website and your data.
 
-![Removing unneeded attribute properties in geojson.io](lesson-images/)  
-**Figure XX.** Removing unneeded attribute properties in geojson.io.
-
 Note that some data attributes have been retained from Google Maps that we don't need. We can remove these, and edit the exisiting data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example you could modify your route.
+
+![Removing unneeded attribute properties in geojson.io](lesson-images/geojson-io-edit.gif)  
+**Figure XX.** Removing unneeded attribute properties in geojson.io.
 
 Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
 
-![Adding a placemarker in geojson.io](lesson-images/)  
+![Adding a placemarker in geojson.io](lesson-images/geojson-io-add-point.gif)  
 **Figure XX.** Adding a placemarker in geojson.io.
 
 Once you're done editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
@@ -139,7 +139,31 @@ You can open this file in your text editor to see that it's the same as what geo
 {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Northbrook Drive to Guggenheim Geography"},"geometry":{"type":"LineString","coordinates":[[-105.2601844,40.0446618],[-105.26024,40.04472],[-105.2602362,40.0447162],[-105.26029,40.04469],[-105.26033,40.04466],[-105.26043,40.04458],[-105.26056,40.04451],[-105.26065,40.04448],[-105.2607,40.04447],[-105.26073,40.04447],[-105.26075,40.04446],[-105.26078,40.04443],[-105.2608,40.04439],[-105.26083,40.04438],[-105.26086,40.04437],[-105.26093,40.04436],[-105.2609275,40.0443637],[-105.26094,40.0444],[-105.26095,40.04446]
 ```
 
-This last step of modifying our data attributes, editing the geometries, and exporting to GeoJSON wraps up our data aquisition and transformation process. Now it's time to draw it to our map!
+This last step of modifying our data attributes, editing the geometries, and exporting to GeoJSON wraps up our data aquisition and conversion process. Next, let's get the data loaded into the web map.
+
+### Step 2: Loading external data into a web document.
+
+There are various ways to load GeoJSON data into your web map. While the best (and more sophisticated) way is to make an [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming) request, we'll begin with a more simple solution.
+
+First, rename the *map.geojson* file to *route.js*. Then open the *route.js* file in your text editor and assign the entire GeoJSON structure to a variable named *data*:
+
+```js
+var data = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Northbrook Drive to Guggenheim Geography"},"geometry":{"type":"LineString","coordinates":[[-105.2601844,40.0446618],[-105.26024,40.04472],[-105.2602362,40.0447162],[-105.26029,40.04469],[-105.26033,40.04466],[-105.26043,40.04458],[-105.26056,40.04451],[-105.26065,40.04448],[-105.2607,40.04447],[-105.26073,40.04447],[-105.26075,40.04446],[-105.26078,40.04443],[-105.2608,40.04439],[-105.26083,40.04438],[-105.26086,40.04437],[-105.26093,40.04436],[-105.2609275,40.0443637],[-105.26094,40.0444],[-105.26095,40.04446]
+```
+
+Save those changes to the file. GeoJSON is essentially a JavaScript object, and we've simpily assigned it to a JavaScript variable. The variable `data` will now be available to us within our script. 
+
+Next open the *index.html* file within our *module-01/app/* directory.
+
+The script is currently loading the external using the `<script>` element, remote jQuery and Leaflet JavaScript files, before our custom code is executed. Let's load this JavaScript file into our document in the same way, being careful to specify a relative path to our file contained within the *data* directory.
+
+This step saved our GeoJSON file within a JavaScript file, assigned it to a variable, and modified the HTML to load the file on page load.
+
+Now it's time to draw it to our map!
+
+### Step 3: Drawing GeoJSON to the map.
+
+
 
 
 
