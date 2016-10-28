@@ -30,7 +30,7 @@ The user's web browser assembles and renders the web page and map application us
 
 **A Web Server**
 
-While a web browser application interprets and renders the files that compose our web maps, they don't do this by themselves. They require a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as asynchronous requests to load files and data into our web application.
+While a web browser application interprets and renders the files that compose our web maps, it doesn't do this by itself. It requires a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as asynchronous requests to load files and data into our web application.
 
 We develop a web application "locally" on our computer, so it's best to use a local server, or a "local test server," to do this. There are a few options for getting a local test server running on your machine.
 
