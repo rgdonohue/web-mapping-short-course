@@ -2,11 +2,11 @@
 
 To begin, clone or [download the course repository](https://github.com/rgdonohue/web-mapping-short-course) to your computer.
 
-Clone or unzip the contents of the files in a known location (i.e., your Desktop or Documents). Briefly, examine the contents of the directory named *module-01/*. You notice a directory named *leaflet-map-template/*, which contains an empty directory named *data/* and a HTML document named *index.html*.
+Clone or unzip the contents of the files in a known location (i.e., a directory in your Documents). Briefly, examine the contents of the directory named *module-01/*. You notice a directory named *leaflet-map-template/*, which contains an empty directory named *data/* and a HTML document named *index.html*.
 
 ## Setting up a development environment
 
-There are many resources and tools for getting going with web mapping. But often getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process:
+There are many [lessons and resources](http://maptime.io/lessons-resources/) available on the web for getting started with web mapping. But often, getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process:
 
 **A Web Browser**
 
