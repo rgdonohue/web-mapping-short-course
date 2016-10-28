@@ -434,4 +434,9 @@ Now when you test in the browser, you'll verify that the user will be able to re
 The last step of making many maps is refining the design and clarifying the message or experience. Adding information about the map through descriptive (or fun) titles and side columns helps guide your user's understanding of the map. Also, be sure to include the map author (you), as well as any useful links to your online portfolios or work.
 
 
-## Further challenges
+## Further challenges and mapping scenarios
+
+Consider honing your skills by completing one of the following mapping scenarios, based on the tools and practices demonstrated in this lesson.
+
+1. Create a map narrating one of your favorite hikes, rides, or backpacking trips. Download your data from Strava as a GPX route. You may wish to include more information about specific places along the way than the tooltip is designed to hold. Try implementing the Leaflet [L.Popup()](http://leafletjs.com/reference-1.0.0.html#popup) class, which can also display images within the HTML content.
+2. Make a map of a suggested tour of Boulder for friends and family who visit. Identify various places of interest and provide a suggested bicycle or walking route. Rather than using the default blue marker, use an [icon set](https://www.mapbox.com/maki-icons/) and the the [Leaflet L.Icon()](http://leafletjs.com/reference-1.0.0.html#icon) class to place associative icons on the map.
