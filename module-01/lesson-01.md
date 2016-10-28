@@ -6,7 +6,7 @@ Clone or unzip the contents of the files in a known location (i.e., a directory 
 
 ## Setting up a development environment
 
-There are many [lessons and resources](http://maptime.io/lessons-resources/) available on the web for getting started with web mapping. But often, getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process:
+There are many [lessons and resources](http://maptime.io/lessons-resources/) available on the web for getting started with web mapping. But often, getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process. These are what you need to have available every time you begin web map design and development.
 
 **A Web Browser**
 
@@ -24,13 +24,17 @@ Brackets is particularly handy if you don't have a local server running or don't
 
 **Directories, Files, Data, and Media**
 
-Using your text editor, open the *module-01/* directory. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
+The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named *index.html*. 
 
-The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named *index.html*.
+Using your text editor, open the *module-01/* directory so you can view the entire structure. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
+
+![Viewing the directory file structure and files in Brackets](lesson-images/file-structure-brackets.png)  
+**Figure 01.** Viewing the directory file structure and files in Brackets.
+
 
 **A Web Server**
 
-While a web browser application interprets and renders the files that compose our web maps, it doesn't do this by itself. It requires a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as asynchronous requests to load files and data into our web application.
+While a web browser application interprets and renders the files that compose our web maps, it doesn't do this by itself. It requires a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as [asynchronous requests](http://rowanmanning.com/posts/javascript-for-beginners-async/) to load files and data into our web application after the web page initially loads.
 
 We develop a web application "locally" on our computer, so it's best to use a local server, or a "local test server," to do this. There are a few options for getting a local test server running on your machine.
 
@@ -38,7 +42,7 @@ We develop a web application "locally" on our computer, so it's best to use a lo
 2. A [WAMP server](http://www.wampserver.com/en/) for Windows or a [Mac OS alternative](http://ampps.com/download)
 3. The use of [Brackets](http://brackets.io/) text editor (see above)
 
-Once you get a local server running within your browser, open the *leaflet-map-template/index.html* file (or open this file from within Brackets using the Live Preview.)
+Once you get a local server running within your browser, open the *leaflet-map-template/index.html* file (or open this file from within Brackets using the Live Preview). Note that Brackets will launch a new instance of your default web browser application.
 
 **Web Developer Tools**
 
@@ -46,7 +50,7 @@ Modern web browsers come installed with web developer tools. These tools come lo
 
 Open your web developer toolbar.
 
-![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)  
+![Opening Chrome's Web Developer Tools](lesson-images/open-developer-tools.png)  
 **Figure 01.** Opening Chrome's Web Developer Tools.
 
 You can use the Elements tab of the Developer tool to inspect the DOM as it is rendered within the browser. While this will largely mirror the HTML document itself, the rendered DOM will also contain elements dynamically produced with JavaScript when the page loads.
@@ -61,9 +65,9 @@ One of the most useful features is the [Console](https://developer.mozilla.org/e
 
 Let's begin with a simple working template for making a web map. 
 
-Open the *[leaflet-map-template/index.html](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/leaflet-map-template/index.html)* within your browser. Be sure to open your file using the Live Preview of Brackets or using another local server.
+Open the *leaflet-map-template/index.html* file within your browser. Be sure to open your file using the Live Preview of Brackets or using another local server.
 
-If the map has loaded correctly, you should see a basemap centered within Boulder, CO. A marker is located at the Guggenheim building and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
+If the map loads correctly, you should see a light basemap centered on the Guggenheim Geography building within Boulder, CO. A marker is located at this location and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
 
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
 **Figure 02.** The Leaflet map templete loaded in the browser, with no errors in the Console.
@@ -211,12 +215,12 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
 
 2. Then use the Directions functionality to determine the route from your home to your building. **BE CAREFUL:** This map is going to end up on the web. Do you want people knowing your exact address? Maybe not! Use an approximate address location instead. Also, be sure to select the mode of travel. Do you drive a car, ride a bus, walk, or ride your bike? If you fly a plane to get to campus, that's incredible!
 
-![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
-**Figure 03.** Using Google Maps to find a route and mode from home to Campus.
+	![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
+	**Figure 03.** Using Google Maps to find a route and mode from home to Campus.
 
-Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
+	Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
 
-When you have highlighted your desired route in blue on the map, copy the entire URL from the address bar (highlight it, and select *Edit -> Copy* or *Cntr + C*).
+	When you have highlighted your desired route in blue on the map, copy the entire URL from the address bar (highlight it, and select *Edit -> Copy* or *Cntr + C*).
 
 3. Next, go to a website named [Maps To GPX](https://mapstogpx.com/), a tool that, "accepts a link to pre-made Google Directions and converts them to a GPX file." This is perfect for us!
 
