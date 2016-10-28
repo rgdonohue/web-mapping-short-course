@@ -86,31 +86,31 @@ Study this skeleton HTML template:
 <html>
 
 <head>
-	<meta charset=utf-8 />
-	<title>Leaflet Map Template</title>
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	
-	<!-- load additional CSS files here and this is an HTML comment -->
+    <meta charset=utf-8 />
+    <title>Leaflet Map Template</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    <!-- load additional CSS files here and this is an HTML comment -->
 
-	<style>
-	
-		/* CSS rules go here and this is a CSS comment */
-		
-	</style>
+    <style>
+    
+        /* CSS rules go here and this is a CSS comment */
+        
+    </style>
 </head>
 
 <body>
 
-	<h1>This is the title to my awesome map.</h1>
+    <h1>This is the title to my awesome map.</h1>
 
-	<!-- more HTML goes here -->
+    <!-- more HTML goes here -->
 
-	<!-- load additional JS files here -->
-	<script>
-		
-		// JavaScript goes here and this is a JS comment
-		
-	</script>
+    <!-- load additional JS files here -->
+    <script>
+        
+        // JavaScript goes here and this is a JS comment
+        
+    </script>
 
 </body>
 
@@ -125,33 +125,33 @@ If the HTML structures our content, the primarly role of CSS is to give that str
 
 ```css
 body {
-	margin: 0;
-	padding: 0;
-	background: whitesmoke;
-	font-family: "Noto Sans", sans-serif;
-	color: #3d3d3d;
+    margin: 0;
+    padding: 0;
+    background: "whitesmoke";
+    font-family: "Noto Sans", sans-serif;
+    color: #3d3d3d;
 }
 
 h1 {
-	position: absolute;
-	margin-top: 0;
-	top: 10px;
-	left: 45px;
-	font-size: 2em;
-	font-family: "Lora", serif;
-	letter-spacing: .04em;
-	padding: 10px 15px;
-	background: rgba(256, 256, 256, .4);
-	border: 1px solid grey;
-	border-radius: 3px;
-	z-index: 800;
+    position: absolute;
+    margin-top: 0;
+    top: 10px;
+    left: 45px;
+    font-size: 2em;
+    font-family: "Lora", serif;
+    letter-spacing: .04em;
+    padding: 10px 15px;
+    background: rgba(256, 256, 256, .4);
+    border: 1px solid grey;
+    border-radius: 3px;
+    z-index: 800;
 }
 
 #map {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 ```
@@ -164,25 +164,31 @@ Finally, we use JavaScript to add event-driven and interaction behavior to our w
 
 
 ```javascript
+
+// options to be used when creating the map
 var options = {
-	center: [40.00816, -105.27423],
-	zoom: 12
+    center: [40.00816, -105.27423],
+    zoom: 12
 }
 
+// creation of the Leaflet map
 var map = L.map('map', options);
 
+// request to load basemap slippy tiles
 var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-	subdomains: 'abcd',
-	maxZoom: 19
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
 }).addTo(map);
 
+// string content to be inserted into a tooltip
 var message = 'Guggenheim Geography!';
 
+// create a Leaflet marker, centered on the map's center
 L.marker(map.getCenter())
-	.bindTooltip(message)
-	.addTo(map)
-	.openTooltip();
+    .bindTooltip(message) // bind the tooltip and message to the marker
+    .addTo(map)  // add the marker to the map
+    .openTooltip();  // open the tooltip
 ```
 
 Let's quickly review what the JavaScript above is doing:
@@ -195,15 +201,19 @@ Let's quickly review what the JavaScript above is doing:
 
 4. The final two statements assign a string value `'Guggenheim Geography!'` to the variable `message` and uses the Leaflet [L.Marker class](http://leafletjs.com/reference-1.0.0.html#marker) to place a marker at the center of the map, as well as the [Leaflet L.Tooltip class](http://leafletjs.com/reference-1.0.0.html#tooltip) to display our message on top of the map layers.
 
+The [Leaflet API Reference](http://leafletjs.com/reference-1.0.0.html) is your source for understanding how the Leaflet JavaScript operates.
+
 Read more about [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 Let's now use this template to create a basic thematic map.
 
 ## Mapping scenario: mapping your route from home to campus
 
-For this lesson, we're going to make a Leaflet map of your route to or from campus (pick one for now if they are different). The goal of the map is to allow the user to see your starting and ending points, the route between them, as well as a couple places of interest along the way. Perhaps you stop at a cafe or your place of work. We want to capture this geography, convert it to an appropriate data format, and display it on a web and mobile-friendly map. Additionally, we can allow the user to retrieve specific information about these places through interacting with the map (in this case, hovering over the map or touching on a marker).
+For this lesson, we're going to make a Leaflet map of your route to or from campus (pick one for now if they are different). The goal of the map is to allow the user to see your starting and ending points, the route between them, as well as a couple places of interest along the way. Maybe you stop at a cafe or your place of work on the way to class.  Perhaps you frequent a watering hole on the way home.
 
-To begin, copy the *leaflet-map-template/* directory and rename it to *app*.
+We want to capture this geography, convert it to an appropriate data format, and display it on a web and mobile-friendly map. Additionally, we will allow the user to retrieve specific information about these places through interacting with the map (in this case, hovering over the map or touching on a marker).
+
+To begin, make a copy of the *leaflet-map-template/* directory and rename it to *app/*, within the *module-01/* directory.
 
 ### Step 1: Data aquisition and conversion
 
@@ -215,68 +225,68 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
 
 2. Then use the Directions functionality to determine the route from your home to your building. **BE CAREFUL:** This map is going to end up on the web. Do you want people knowing your exact address? Maybe not! Use an approximate address location instead. Also, be sure to select the mode of travel. Do you drive a car, ride a bus, walk, or ride your bike? If you fly a plane to get to campus, that's incredible!
 
-	![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
-	**Figure 03.** Using Google Maps to find a route and mode from home to Campus.
+    ![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
+    **Figure 03.** Using Google Maps to find a route and mode from home to Campus.
 
-	Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
+    Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
 
-	When you have highlighted your desired route in blue on the map, copy the entire URL from the address bar (highlight it, and select *Edit -> Copy* or *Cntr + C*).
+    When you have highlighted your desired route in blue on the map, copy the entire URL from the address bar (highlight it, and select *Edit -> Copy* or *Cntr + C*).
 
 3. Next, go to a website named [Maps To GPX](https://mapstogpx.com/), a tool that, "accepts a link to pre-made Google Directions and converts them to a GPX file." This is perfect for us!
 
-	Paste your URL from Google Maps into the form and hit "Let's Go." 
+    Paste your URL from Google Maps into the form and hit "Let's Go." 
 
-	![Converting Google Maps Route to GPX](lesson-images/mapstogpx.png)  
-	**Figure 04.** Converting Google Maps Route to GPX.
+    ![Converting Google Maps Route to GPX](lesson-images/mapstogpx.png)  
+    **Figure 04.** Converting Google Maps Route to GPX.
 
-	The site will make the necessary conversion and prompt the download of the GPX file (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
+    The site will make the necessary conversion and prompt the GPX file to download (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
 
-	GPX (the GPS Exchange Format) is a text-based format derived from XML and often used to encode GPS data. You can open this file in your text editor to examine the contents. We're not too interested in particular file, but it looks like this:
+    GPX (the GPS Exchange Format) is a text-based format derived from XML and often used to encode GPS data. You can open this file in your text editor to examine the contents. We're not too interested in particular file, but it looks like this:
 
-	```xml
-	<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-	<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="mapstogpx.com" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
-	  <metadata>
-		<link href="http://www.mapstogpx.com">
-		  <text>Sverrir Sigmundarson</text>
-		</link>
-		<!--desc>Map data ©2016 Google</desc-->
-		<!--url>https://www.google.co.uk/maps/dir/40.035196,-105.2809662/40.008162,-105.27423/@40.0215947,-105.2933284,14z/data=!3m1!4b1!4m2!4m1!3e1?hl=en</url-->
-		<time>2016-10-23T15:57:30Z</time>
-	  </metadata>
-	  <wpt lat="40.035196" lon="-105.2809662">
-		<name>3315 13th Street</name>
-		<desc>3315 13th Street, Boulder, CO 80304, USA</desc>
-	  </wpt>
-	```
+    ```xml
+    <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="mapstogpx.com" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+      <metadata>
+        <link href="http://www.mapstogpx.com">
+          <text>Sverrir Sigmundarson</text>
+        </link>
+        <!--desc>Map data ©2016 Google</desc-->
+        <!--url>https://www.google.co.uk/maps/dir/40.035196,-105.2809662/40.008162,-105.27423/@40.0215947,-105.2933284,14z/data=!3m1!4b1!4m2!4m1!3e1?hl=en</url-->
+        <time>2016-10-23T15:57:30Z</time>
+      </metadata>
+      <wpt lat="40.035196" lon="-105.2809662">
+        <name>3315 13th Street</name>
+        <desc>3315 13th Street, Boulder, CO 80304, USA</desc>
+      </wpt>
+    ```
 
-	If you happen to use the popular [Strava](https://www.strava.com/) service, you can also download all your routes in GPX format.
+    If you happen to use the popular [Strava](https://www.strava.com/) service, you can also download all your routes in GPX format.
 
 4. Next, we want to convert our data to another format: [GeoJSON](http://geojson.org/). GeoJSON is to web mapping what the Shapefile is to GIS.
 
-	Navigate your browser to a website called [geojson.io](http://geojson.io/). You'll want to bookmark this website, as it's an extremely useful online tool.
+    Navigate your browser to a website called [geojson.io](http://geojson.io/). You'll want to bookmark this website, as it's an extremely useful online tool.
 
-	Open your GPX file in the geojson.io web application. Study the code generated in the right-hand panel; it is a valid GeoJSON encoding of your route. Unlike Shapefiles, GeoJSON can encode multiple geometry types within a single Feature Collection. Note that  Features have both `properties` and `geometry` attributes. The `"LineString"` type contains all the points that make up the route, while the two `"Point"` type Features encode the endpoints of the route.
+    Open your GPX file in the geojson.io web application. Study the code generated in the right-hand panel; it is a valid GeoJSON encoding of your route. Unlike Shapefiles, GeoJSON can encode multiple geometry types within a single Feature Collection. Note that  Features have both `properties` and `geometry` attributes. The `"LineString"` type contains all the points that make up the route, while the two `"Point"` type Features encode the endpoints of the route.
 
-	Take some time to play around with the geojson.io website and your data.
+    Take some time to play around with the geojson.io website and your data.
 
-	Note that our process has retained some data attributes from Google Maps that we don't need. We can remove these, and edit the existing data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example, you could modify your route.
+    Note that our process has retained some data attributes from Google Maps that we don't need. We can remove these, and edit the existing data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example, you could modify your route.
 
-	![Removing unneeded attribute properties in geojson.io](lesson-images/geojson-io-edit.gif)  
-	**Figure 05.** Removing unneeded attribute properties in geojson.io.
+    ![Removing unneeded attribute properties in geojson.io](lesson-images/geojson-io-edit.gif)  
+    **Figure 05.** Removing unneeded attribute properties in geojson.io.
 
-	Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
+    Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
 
-	![Adding a placemarker in geojson.io](lesson-images/geojson-io-add-point.gif)  
-	**Figure 06.** Adding a placemarker in geojson.io.
+    ![Adding a placemarker in geojson.io](lesson-images/geojson-io-add-point.gif)  
+    **Figure 06.** Adding a placemarker in geojson.io.
 
-	Once you finish editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
+    Once you finish editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
 
-	You can open this file in your text editor to see that it's the same as what geojson.io displayed.
+    You can open this file in your text editor to see that it's the same as what geojson.io displayed.
 
-	```js
-	{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Northbrook Drive to Guggenheim Geography"},"geometry":{"type":"LineString","coordinates":[[-105.2601844,40.0446618],[-105.26024,40.04472],[-105.2602362,40.0447162],[-105.26029,40.04469],[-105.26033,40.04466],[-105.26043,40.04458],[-105.26056,40.04451],[-105.26065,40.04448],[-105.2607,40.04447],[-105.26073,40.04447],[-105.26075,40.04446],[-105.26078,40.04443],[-105.2608,40.04439],[-105.26083,40.04438],[-105.26086,40.04437],[-105.26093,40.04436],[-105.2609275,40.0443637],[-105.26094,40.0444],[-105.26095,40.04446]
-	```
+    ```js
+    {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Northbrook Drive to Guggenheim Geography"},"geometry":{"type":"LineString","coordinates":[[-105.2601844,40.0446618],[-105.26024,40.04472],[-105.2602362,40.0447162],[-105.26029,40.04469],[-105.26033,40.04466],[-105.26043,40.04458],[-105.26056,40.04451],[-105.26065,40.04448],[-105.2607,40.04447],[-105.26073,40.04447],[-105.26075,40.04446],[-105.26078,40.04443],[-105.2608,40.04439],[-105.26083,40.04438],[-105.26086,40.04437],[-105.26093,40.04436],[-105.2609275,40.0443637],[-105.26094,40.0444],[-105.26095,40.04446]
+    ```
 
 This last step of modifying our data attributes, editing the geometries, and exporting to GeoJSON wraps up our data acquisition and conversion process. Next, let's get the data loaded into the web map.
 
