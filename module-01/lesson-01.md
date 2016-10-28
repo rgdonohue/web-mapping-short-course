@@ -51,12 +51,12 @@ Modern web browsers come installed with web developer tools. These tools come lo
 Open your web developer toolbar.
 
 ![Opening Chrome's Web Developer Tools](lesson-images/open-developer-tools.png)  
-**Figure 01.** Opening Chrome's Web Developer Tools.
+**Figure 02.** Opening Chrome's Web Developer Tools.
 
 You can use the Elements tab of the Developer tool to inspect the DOM as it is rendered within the browser. While this will largely mirror the HTML document itself, the rendered DOM will also contain elements dynamically produced with JavaScript when the page loads.
 
 ![Exploring the DOM elements using Chrome's Web Developer Tools](lesson-images/dev-tools-elements.gif)  
-**Figure 02.** Exploring the DOM elements using Chrome's Web Developer Tools.
+**Figure 03.** Exploring the DOM elements using Chrome's Web Developer Tools.
 
 One of the most useful features is the [Console](https://developer.mozilla.org/en-US/docs/Web/API/Console), which allows you to log JavaScript values within the browser. You can type directly into the Console, or log values from a JavaScript file loaded within the browser. We'll be doing both as we build and debug web maps.
 
@@ -70,7 +70,7 @@ Open the *leaflet-map-template/index.html* file within your browser. Be sure to 
 If the map loads correctly, you should see a light basemap centered on the Guggenheim Geography building within Boulder, CO. A marker is located at this location and a tooltip opens on the marker. There should also be no errors in the Developer Tool Console.
 
 ![The Leaflet map templete loaded in the browser](lesson-images/leaflet-template.png)  
-**Figure 02.** The Leaflet map templete loaded in the browser, with no errors in the Console.
+**Figure 04.** The Leaflet map templete loaded in the browser, with no errors in the Console.
 
 How does the code contained within the *index.html* file work together to produce this map? Our web document is composed of 3 essential web technologies: HTML, CSS, and JavaScript. The web browser in turn creates a DOM or Document Object Module using this document.
 
@@ -226,7 +226,7 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
 2. Then use the Directions functionality to determine the route from your home to your building. **BE CAREFUL:** This map is going to end up on the web. Do you want people knowing your exact address? Maybe not! Use an approximate address location instead. Also, be sure to select the mode of travel. Do you drive a car, ride a bus, walk, or ride your bike? If you fly a plane to get to campus, that's incredible!
 
     ![Using Google Maps to find a route and mode from home to Campus](lesson-images/google-maps-route.png)  
-    **Figure 03.** Using Google Maps to find a route and mode from home to Campus.
+    **Figure 05.** Using Google Maps to find a route and mode from home to Campus.
 
     Google Maps allows you to pick between alternative routes, as well as to drag the route to customize the route you really take. Feel free to adjust this a little bit, but don't worry too much about it. We'll be using another tool to do this later on.
 
@@ -237,7 +237,7 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
     Paste your URL from Google Maps into the form and hit "Let's Go." 
 
     ![Converting Google Maps Route to GPX](lesson-images/mapstogpx.png)  
-    **Figure 04.** Converting Google Maps Route to GPX.
+    **Figure 06.** Converting Google Maps Route to GPX.
 
     The site will make the necessary conversion and prompt the GPX file to download (with a name something like *mapstogpx20161026_000913.gpx*). Move this file into the *module-01/app/data/* directory.
 
@@ -273,12 +273,12 @@ Let's first use a fantastic (proprietary) mapping resource: [Google Maps](https:
     Note that our process has retained some data attributes from Google Maps that we don't need. We can remove these, and edit the existing data properties as we wish. The web application also allows us to add, remove, and edit geometries. For example, you could modify your route.
 
     ![Removing unneeded attribute properties in geojson.io](lesson-images/geojson-io-edit.gif)  
-    **Figure 05.** Removing unneeded attribute properties in geojson.io.
+    **Figure 07.** Removing unneeded attribute properties in geojson.io.
 
     Instead, let's add a couple more places of interest. Using the drawing tools, place a point of interest along your route. Add a property row to the marker, and be sure to use the word "name" as the name of the attribute (just like the other points). Geojson.io also adds some other properties to style the marker. We don't need these, and you can remove them in the editor.
 
     ![Adding a placemarker in geojson.io](lesson-images/geojson-io-add-point.gif)  
-    **Figure 06.** Adding a placemarker in geojson.io.
+    **Figure 08.** Adding a placemarker in geojson.io.
 
     Once you finish editing your data, choose **Save** and download as a GeoJSON (it will download with the file name *map.geojson*. Save or move this downloaded file into your *module-01/app/data/* directory.
 
@@ -322,6 +322,19 @@ Add the line `<script src="data/route.js"></script>` to our *index.html* file, b
     }
 ```
 
+You can verify that the data is loaded and you have access to the JavaScript object we created, assigned to the variable named `data` by using a `console.log()` statement.
+
+```
+<script>
+var options = {
+	center: [40.00816, -105.27423],
+	zoom: 12
+}
+
+console.log(data); // output will be our GeoJSON object
+	
+```
+
 This step saved our GeoJSON file within a JavaScript file, assigned it to a variable, and modified the HTML to load the file on page load.
 
 Now it's time to draw it to our map!
@@ -353,12 +366,12 @@ map.fitBounds(myRoute.getBounds());
 Save your file, refresh your browser, and you can see that Leaflet has drawn your data to the map. As always, keep your developer tools open and check for any JavaScript errors in the Console. You may need to re-adust the pan and zoom level to see the extent of your data.
 
 ![Drawing the GeoJSON data to the map using L.GeoJson](lesson-images/draw-geojson.gif)  
-**Figure 07.** Drawing the GeoJSON data to the map using L.GeoJson.
+**Figure 09.** Drawing the GeoJSON data to the map using L.GeoJson.
 
 We've successfully drawn the the GeoJSON data to the Leaflet map using Leaflet's default styling options. Leaflet has rendered the LineString feature in the browser as an SVG path element within Leaflet's [overlayPane](http://leafletjs.com/reference-1.0.0.html#map-overlaypane) and the Point features on top of the line within Leaflet's [markerPane](http://leafletjs.com/reference-1.0.0.html#map-markerpane)
 
 ![Inspecting the SVG and img elements within the DOM, as drawn by Leaflet](lesson-images/inspect-elements.gif)  
-**Figure 08.** Inspecting the SVG and img elements within the DOM, as drawn by Leaflet.
+**Figure 10.** Inspecting the SVG and img elements within the DOM, as drawn by Leaflet.
 
 Next, let's do some simple adjustments to the styles applied to these features.
 
@@ -408,7 +421,7 @@ var myStops = L.geoJson(data, {
 Save your file and refresh the browser. 
 
 ![The map line feature styled with Leaflet Path options](lesson-images/geojson-styled.png)  
-**Figure 09.** The map line feature styled with Leaflet Path options.
+**Figure 11.** The map line feature styled with Leaflet Path options.
 
 
 You'll see we've now drawn the line according to these rules: 
@@ -437,7 +450,7 @@ layer.bindTooltip(feature.properties['name']);
 Now when you test in the browser, you'll verify that the user will be able to retrieve specific information about these features by mousing over (or touching on a touchscreen interface) a specific feature.
 
 ![Inspecting the SVG and img elements drawn by Leaflet](lesson-images/ui-tooltip.gif)  
-**Figure 10.** Inspecting the SVG and img elements drawn by Leaflet.
+**Figure 12.** Inspecting the SVG and img elements drawn by Leaflet.
 
 ### Step 6: Making the map whole: titles, information, and metadata.
 
