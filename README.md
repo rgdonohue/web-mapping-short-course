@@ -49,7 +49,7 @@ The course comprises four weekly modules encompassing 2 hours of guided instruct
 
 * **October 28th** -- Drawing Data with Web Maps
 * **November 4th** -- Thematic Web Mapping: Point Symbology
-* **November 11th** -- Thematic Web Mapping: Value by Area
+* **November 11th** -- Thematic Web Mapping: Choropleth
 * **November 18th** -- Extending Web Maps with Plugins and Web Hosting
 
 The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geography.colorado.edu/research/lab_facility/ken_erickson_spatial_data_analysis_lab) (Guggenheim Rm 6), on the CU-Boulder campus.
@@ -72,7 +72,7 @@ The second lesson explores cartographic techniques for representing point featur
 
 ### 3. Thematic Web Mapping: Value by Area
 
-The third lesson explores techniques for making the popular value by area (or choropleth) map. Students use web-based tools first to convert polygons such as census tracks into appropriate data formats before writing code to dynamically classify data for representing different values. The lesson also introduces the popular JavaScript library Qjuery, to assist in loading data from external sources.
+The third lesson explores techniques for making the popular choropleth map. Students use web-based tools first to convert polygons such as census tracks into appropriate data formats before writing code to dynamically classify data for representing different values. The lesson also introduces the popular JavaScript library Qjuery, to assist in loading data from external sources.
 
 ### 4. Extending Web Maps with Plugins and Web Hosting
 
