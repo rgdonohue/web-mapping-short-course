@@ -2,7 +2,7 @@
 
 To begin, clone or [download the course repository](https://github.com/rgdonohue/web-mapping-short-course) to your computer.
 
-Clone or unzip the contents of the files in a known location (i.e., a directory in your Documents). Briefly, examine the contents of the directory named *module-01/*. You notice a directory named *leaflet-map-template/*, which contains an empty directory named *data/* and a HTML document named *index.html*.
+Clone or unzip the contents of the files in a known location (i.e., a directory in your Documents). Briefly, examine the contents of the directory named *module-01/*. You notice a directory named *leaflet-map-template/* that contains an HTML document named *index.html*.
 
 ## Setting up a development environment
 
