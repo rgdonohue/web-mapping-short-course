@@ -2,15 +2,43 @@
 
 To begin, clone or [download the course repository](https://github.com/rgdonohue/web-mapping-short-course) to your computer.
 
-Clone or unzip the contents of the files in a known location (i.e., your Desktop or Documents). Briefly, examine the contents of the directory named `module-01`. 
+Clone or unzip the contents of the files in a known location (i.e., your Desktop or Documents). Briefly, examine the contents of the directory named *module-01/*. You notice a directory named *leaflet-map-template/*, which contains an empty directory named *data/* and a HTML document named *index.html*.
 
 ## Setting up a development environment
 
-There are many resources and tools for getting going with web mapping. But sometimes getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process:
+There are many resources and tools for getting going with web mapping. But often getting the development environment set up so you can write code and test your map is the first roadblock. Let's consider the principle components of a web development process:
 
 **A Web Browser**
 
-Web Mapping is an unusual form of Cartography in that we primarily make the maps using the same medium with which we develop them. The web browser is a crucial component of our technology stack. Most web map developers use Chrome or Firefox, as you should. Make sure your browser has installed recent updates.
+Web Mapping is an unusual form of Cartography in that we primarily make the maps using the same medium with which we develop them. The web browser is a crucial component of our technology stack. Most web map developers use Chrome or Firefox, as should you. Make sure you have installed recent updates to your browser, and begin by opening your Web Browser.
+
+**A Text Editor**
+
+Developers build web maps by writing plain text. Text editors designed for web development facilitate this, particular by highlighting different parts of the code syntax. Install and open one of the following:
+
+* [Brackets](http://brackets.io/)
+* [Sublime](https://www.sublimetext.com/)
+* [Atom](https://atom.io/)
+
+Brackets is particularly handy if you don't have a local server running or don't know what that is. Its "Live Preview" functionality runs a local test server within your web browser, which allows you to see and test your rendered web application.
+
+**Directories, Files, Data, and Media**
+
+Using your text editor, open the *module-01/* directory. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
+
+The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named *index.html*.
+
+**A Web Server**
+
+While a web browser application interprets and renders the files that compose our web maps, they don't do this by themselves. They require a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as asynchronous requests to load files and data into our web application.
+
+We develop a web application "locally" on our computer, so it's best to use a local server, or a "local test server," to do this. There are a few options for getting a local test server running on your machine.
+
+1. [Python's SimpleHTTPServer](http://www.pythonforbeginners.com/modules-in-python/how-to-use-simplehttpserver/) module
+2. A [WAMP server](http://www.wampserver.com/en/) for Windows or a [Mac OS alternative](http://ampps.com/download)
+3. The use of [Brackets](http://brackets.io/) text editor (see above)
+
+Once you get a local server running within your browser, open the *leaflet-map-template/index.html* file (or open this file from within Brackets using the Live Preview.)
 
 **Web Developer Tools**
 
@@ -21,36 +49,15 @@ Open your web developer toolbar.
 ![Opening Chrome's Web Developer Tools'](lesson-images/open-developer-tools.png)  
 **Figure 01.** Opening Chrome's Web Developer Tools.
 
+You can use the Elements tab of the Developer tool to inspect the DOM as it is rendered within the browser. While this will largely mirror the HTML document itself, the rendered DOM will also contain elements dynamically produced with JavaScript when the page loads.
+
+![Exploring the DOM elements using Chrome's Web Developer Tools](lesson-images/dev-tools-elements.gif)  
+**Figure 02.** Exploring the DOM elements using Chrome's Web Developer Tools.
+
 One of the most useful features is the [Console](https://developer.mozilla.org/en-US/docs/Web/API/Console), which allows you to log JavaScript values within the browser. You can type directly into the Console, or log values from a JavaScript file loaded within the browser. We'll be doing both as we build and debug web maps.
 
-**A Web Server**
 
-While a web browser application interprets and renders the files that compose our web maps, they don't do this by themselves. They require a "server" to gather the files and deliver them to the browser correctly. A server is especially necessary when using JavaScript to make what are known as asynchronous requests to load files and data into our web application.
-
-We develop a web application "locally" on our computer, so it's best to use a local server, or a "local test server," to do this. There are a few options for getting a local test server running on your machine.
-
-1. [Python's SimpleHTTPServer](http://www.pythonforbeginners.com/modules-in-python/how-to-use-simplehttpserver/) module
-2. A [WAMP server](http://www.wampserver.com/en/) for Windows or a [Mac OS alternative](http://ampps.com/download)
-3. The use of Brackets text editor (see below)
-
-**A Text Editor**
-
-Developers build web maps by writing plain text. Text editors designed for web development facilitate this, particular by highlighting different parts of the code syntax. Install and open one of the following:
-
-* [Brackets](http://brackets.io/)
-* [Sublime](https://www.sublimetext.com/)
-* [Atom](https://atom.io/)
-
-Brackets is particularly handy if you don't have a local server running or don't know what that is. Its "Live Preview" functionality runs a local host within your web browser, which allows you to see and test your rendered web application.
-
-**Directories, Files, Data, and Media**
-
-The user's web browser assembles and renders the web page and map application using specific files. Minimally this will include an HTML index file for the direction, typically named *index.html*.
-
-Using your text editor, open the *module-01/* directory. A good text editor allows you view and modify the contents of the directory. Again examine the contents of this directory from within the editor.
-
-
-## Introducing the building blocks of a "hello world" web map
+## Introducing the building blocks of a "hello world" web map template
 
 Let's begin with a simple working template for making a web map. 
 
