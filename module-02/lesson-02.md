@@ -20,7 +20,7 @@ First, let's get some data to play with. We're first going to download some tabu
 
 Navigate to the EPA's [Facility Level Information on GreenHouse Gasses Tool (FLIGHT)](https://ghgdata.epa.gov/ghgp/main.do). The tool offers you several filtering options. 
 
-![EPA's FLIGHT app filtered for 2015 data in Colorado]()  
+![EPA's FLIGHT app filtered for 2015 data in Colorado](lesson-images/flight.png)  
 **Figure XX.**
 
 Narrow your search to a specific US state (e.g., Colorado) for 2015 data, and leave the rest of the options as default. When ready, click **Export Data** to download the data file. Note that it is downloaded as a Microsoft Xcel file named *flight.xls*. Save or move this file into the *data/* directory within the *module-02/app/* directory.
@@ -31,7 +31,7 @@ Next, open this file within a spreadsheet program. You can do this using Microso
 
 Currently the data are encoded within the *.xls* file format (which OpenOffice and LibreOffice can read). Our next step is to clean this data up a bit and convert it to a CSV file. Because we're working with point-level data where each feature has a latitude and longitude value, the CSV will be the most efficient flat-file format in which to store the data.
 
-![The flight.xls file opened in OpenOffice]()  
+![The flight.xls file opened in OpenOffice](lesson-images/file-openoffice.png)  
 **Figure XX.**
 
 We first note that there are metadata stored within the first few rows of the file. You may want to copy this information and paste it into a *metadata.txt* file within your *data/* directory. Then delete the first 5 rows from the sheet.
@@ -56,19 +56,19 @@ Make the following changes:
 
 Save the changes to the *.xls* file.
 
-![The flight.xls file cleaned up in OpenOffice]()  
+![The flight.xls file cleaned up in OpenOffice](lesson-images/file-cleaned.png)  
 **Figure XX.**
 
 Next, we want to convert this file to a CSV format. While this should be a simple "Save As .." we need to be careful with this step. Different programs use different character encodings to save a CSV file, as well as different linebreak characters. This can cause problems later on when we load and parse the data using JavaScript in the browser.
 
 When choosing **File -> Save As ...** in OpenOffice, I can choose the File type to be "Text CSV (.csv). I can also rename the file to something useful like *ghg-co-2015.csv*.
 
-![Saving the file as a CSV in OpenOffice]()  
+![Saving the file as a CSV in OpenOffice](lesson-images/save-csv.png) 
 **Figure XX.**
 
 Importantly, open office gives us an additional dialog box with **Export Text File** options. Ensure that the "Character set" is "Unicode (UTF-8)", the field delimiter is a comma, and that you've checked the box to "Quote all text cells"
 
-![Export Text File options in OpenOffice]()  
+![Export Text File options in OpenOffice](lesson-images/csv-export-options.png)  
 **Figure XX.**
 
 Click OK to export the CSV file, saving it again within the *module-02/app/data/* directory.
@@ -81,16 +81,46 @@ There are many ways to convert a CSV file to GeoJSON. One of the easiest, surpri
 
 Open the file in the web interface. Note that the attribute column headings and values within the CSV have been converted to key/value pairs within a `properties` object for each point feature in our data.
 
-![The CSV file converted to GeoJSON in geojson.io]()  
+![The CSV file converted to GeoJSON in geojson.io](lesson-images/csv-geojson-io.png)  
 **Figure XX.**
 
-Save this file to your local machine as a GeoJSON.
+Save this file to your local machine as a GeoJSON, and rename the file from *map.geojson* to *ghg-co-2015.json*.
 
 Note how in this example, the original .xls file heading "Name" was edited to contain a space before the "N" ... " NAME". This is not a trivial error in coding and may cause problems later when trying to programmatically access the value of each feature's NAME attribute. Also, unlike the CSV in which that one heading entry can easily be edited, when we convert it to GeoJSON that mistake is replicated within the properties of each feature. However, a find and replace in a powerful text editor can quickly rectify the problem.
 
 
-
 ## Step 02: Loading data into the script
+
+Begin by opening the *module-02/app/index.html* in your text editor and load the page in your browser using a local server (see [Lesson 01](https://github.com/rgdonohue/web-mapping-short-course/blob/master/module-01/lesson-01.md)).
+
+We can see that a basic Leaflet map template has loaded within the page (using CARTO's light basemap tiles). With the developer tools open, we see there is also a 404 (Not Found) error generated within the script.
+
+![Basic Leaflet map template loaded with 404 error](lesson-images/error-404.png)   
+**Figure XX.**
+
+Within the tool bar, we can drill down into what's known as the "call stack" or "stack trace" to further diagnose the error and where it occurs within our script. We see that within our *index.html* file it happens on line 129.
+
+![Examining the call stack error](lesson-images/stack-trace.png)   
+**Figure XX.**
+
+The error is thrown within the JavaScript that is attempting to use an asynchronous request to load an external file.
+
+```javascript
+$.getJSON('data/data.json', function (data) {
+
+    console.log(data);
+
+});
+```
+
+The problem here is that JQuery's `.getJSON()` method is looking for a data file that doesn't exist. We don't currently have a file at this location: `'data/data.json'`.
+
+Edit the JavaScript to look for our file named ghg-co-2015.json, save the changes and refresh the browser. Whalaa!! Provided there were no errors in the CSV encoding, or any additional errors in the JavaScript, you should see our point data drawn as the default Leaflet markers on the map.
+
+![Examining the call stack error](lesson-images/points-as-markers.png)   
+**Figure XX.**
+
+
 
 
 
