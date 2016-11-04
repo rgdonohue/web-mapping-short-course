@@ -24,3 +24,14 @@ In the meanwhile, consider reading the following:
 If you have no background in web design or development, some people find the free Codeacademy courses on [HTML and CSS](https://www.codecademy.com/learn/web) or [JavaScript](https://www.codecademy.com/learn/javascript) helpful.
 
 Feel free to email me with questions at donohuer@colorado.edu.
+
+## Schedule and Location
+
+The course comprises four weekly modules encompassing 2 hours of guided instruction each, Friday afternoons from 3 - 5 pm.
+
+* **October 28th** -- Drawing Data with Web Maps
+* **November 4th** -- Thematic Web Mapping: Point Symbology
+* **November 11th** -- Thematic Web Mapping: Choropleth
+* **November 18th** -- Extending Web Maps with Plugins and Web Hosting
+
+The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geography.colorado.edu/research/lab_facility/ken_erickson_spatial_data_analysis_lab) (Guggenheim Rm 6), on the CU-Boulder campus.

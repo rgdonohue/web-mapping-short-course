@@ -43,17 +43,6 @@ That stated, the course is intended as a gentle introduction to web mapping and 
 
 Most importantly, the course requires curiosity and a willingness to be confused and frustrated while puzzling through problems.
 
-## Schedule and Location
-
-The course comprises four weekly modules encompassing 2 hours of guided instruction each, Friday afternoons from 3 - 5 pm.
-
-* **October 28th** -- Drawing Data with Web Maps
-* **November 4th** -- Thematic Web Mapping: Point Symbology
-* **November 11th** -- Thematic Web Mapping: Choropleth
-* **November 18th** -- Extending Web Maps with Plugins and Web Hosting
-
-The course will meet in the [Ken Erickson Spatial Data Analysis Lab](http://geography.colorado.edu/research/lab_facility/ken_erickson_spatial_data_analysis_lab) (Guggenheim Rm 6), on the CU-Boulder campus.
-
 ## Additional Help and Resources
 
 * [Stack Overflow](http://stackoverflow.com/)

@@ -78,7 +78,7 @@
 
 <body>
 
-	<h1>This is the title to my awesome map.</h1>
+	<h1>Rich's time in Boulder</h1>
 
 	<div id='map'></div>
 
@@ -96,12 +96,17 @@
 
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+	
+	<script src='data/route.js'></script>
 	<script>
+//		
+//		console.log(data);
 		
 		var options = {
 			center: [40.00816, -105.27423],
 			zoom: 12
 		}
+
 		var map = L.map('map', options);
 		
 		var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -109,11 +114,51 @@
 			subdomains: 'abcd',
 			maxZoom: 19
 		}).addTo(map);
-		var message = 'Guggenheim Geography!';
-		L.marker(map.getCenter())
-			.bindTooltip(message)
-			.addTo(map)
-			.openTooltip();
+		
+
+//
+//		var message = 'Guggenheim Geography!';
+//
+//		L.marker(map.getCenter())
+//			.bindTooltip(message)
+//			.addTo(map)
+//			.openTooltip();
+		
+		var myRoute = L.geoJson(data, {
+
+			filter : function(feature) {
+				if(feature.geometry.type == "LineString") {
+					return feature;
+				}
+			},
+			style : function(feature) {
+
+				return {
+					color: "#005DAA",
+					weight: 4,
+					opacity: .6,
+					dashArray: "5, 5"
+				}        
+			}
+
+		}).addTo(map);
+
+		var myStops = L.geoJson(data, {
+
+			filter : function(feature) {
+				if(feature.geometry.type == "Point") {
+					return feature;
+				}
+			},
+			onEachFeature : function(feature, layer) {
+
+//				console.log(feature.properties['name']);
+				
+				layer.bindTooltip(feature.properties['name']);
+			}
+
+		}).addTo(map);
+
 		
 	</script>
 
