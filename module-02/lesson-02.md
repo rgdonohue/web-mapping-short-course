@@ -1,6 +1,6 @@
 # Lesson 02. Thematic Web Mapping: Point Symbology
 
-This lesson guides you through a process of creating a proportional symbol map.
+This lesson guides you through a process of creating a proportional symbol map. We're going to work with some greenhouse gas emissions data to make a map looking something like this: [http://situatedlaboratories.net/carbon-emissions-co/app/](http://situatedlaboratories.net/carbon-emissions-co/app/).
 
 Proportional symbol maps are a useful alternative to the common choropleth map. We can use them to map total or ratio data and unlike choropleth maps we don't need to standardize the data. We can use precise point data to make a proportional symbol map (such as the location of a coal plant), or conceptual point data (i.e., a wind farm covers a large area, but we can still represent it as a point). Proportional symbol maps are also good at showing relative magnitudes (i.e., "I can tell that this one is larger than that one"). We can make proportional symbol maps with any shape, though circles are the most common.
 
@@ -318,6 +318,17 @@ function calcRadius(val) {
 
 Once we made these modifications to our script, we should have a proportionally-scaled set of circles representing the relative magnitudes of gas emissions.
 
+There may be one little problem, however, often associated with proportional symbol maps. The large circles may overlap or completely cover smaller circles. Fortunately, we can add make two modifications to our current script to help solve this problem.
+
+First, we can apply a sorting method to our data before we draw our circles, sorting the features with the largest quantities of greenhouse gas first and therefore drawing them first. The smaller ones will be stacked on top. Add this code within the function loading our data, before we call the function `drawMap`:
+
+```javascript
+data.features.sort(function (a, b) {
+    return b.properties.GHG_QUANTITY - a.properties.GHG_QUANTITY
+});
+```
+
+Next, adjust the `fillOpacity` property of the circles (within our `style` function) to something like `.6`.
 
 ## Step 05: Adding user interaction affordances and retrieving information
 
@@ -410,4 +421,11 @@ function onEachFeature(feature, layer) {
 }
 ```
 
-Note that we're again accessing specific information from each feature using the `feature.properties` syntax. We're also using a convenient JavaScript method `toLocaleString()` to format the number nicely with commas.
+Note that we're again accessing specific information from each feature using the `feature.properties` syntax. We're also using a convenient JavaScript method `toLocaleString()` to format the number nicely with commas in the tooltip.
+
+## Making the map whole
+
+So far we've coded a fairly slick web map. But it's currently lacking some crucical elements that make the map more useful for the user. For one, maps should have a catchy if not informative title. You can also display supplementary information in a sidebar or overlay. Crucially, however, most thematic maps need a legend. We want the user to easily know what they're looking at, without having to deduce it or poke around too much.
+
+Drawing dynamic legends in web mapping can be tricky business, however. One solution is to use HTML and CSS to draw the basic form of the legend, and then let the JavaScript update and position the legend elements appropriately. See the example in this [bi-variate map of facilities emissions](https://github.com/rgdonohue/carbon-emissions-co/blob/master/app/index.html).
+

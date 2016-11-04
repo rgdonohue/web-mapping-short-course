@@ -126,7 +126,7 @@
         }).addTo(map);
 
 
-        $.getJSON('data/ghg-co-2015.json', function (data) {
+        $.getJSON('data/data.json', function (data) {
 
             console.log(data);
 
@@ -144,25 +144,26 @@
 
             }
 
-//            L.geoJson(data).addTo(map);
+            L.geoJson(data).addTo(map);
             
-            L.geoJson(data, options).addTo(map);
+//            L.geoJson(data, options).addTo(map);
             
 //            drawLegend(data)
             
-        }
+        } // end drawMap
 
 
         function pointToLayer(feature, latlng) {
-
             
+//                console.log(feature.properties);
+
             return L.circleMarker(latlng, {
 
-                radius: calcRadius(feature.properties.GHG_QUANTITY)
-                
+                radius: 10
+
             });
 
-        }
+        } // end pointToLayer
 
         function style(feature) {
 
@@ -170,43 +171,30 @@
                 
                 fillColor: '#bd4932',
                 fillOpacity: 1,
-                color: "#105b63",
-                weight: 2
+                color: "whitesmoke",
+                weight: 1
 
             }
 
             return styleOptions;
 
-        }
+        } // end style
 
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: function () {
-
-                    layer.setStyle({
-                        color: "yellow",
-                        weight: 3
-                    });
-
+                    
+//                    console.log(feature.properties);
+                    
                 },
                 mouseout: function () {
 
-                    layer.setStyle({
-                        color: "#105b63",
-                        weight: 1
-                    });
+                    
                 }
-            });
-            
+            })  
 
-            var toolTipInfo = "Name: " + feature.properties.NAME + "<br>" +
-                "C02: " + feature.properties.GHG_QUANTITY.toLocaleString() + "metric tons"
-
-
-            layer.bindTooltip(toolTipInfo, { sticky: true });
-
-        }
+        } // end onEachFeature
 
         function calcRadius(val) {
 
@@ -215,13 +203,13 @@
             
             return radius * scaleFactor;
 
-        }
+        } // end calcRadius
         
         function drawLegend(data) {
             
             
                     
-        }
+        } // end drawLegend
         
         
         
