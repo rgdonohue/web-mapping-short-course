@@ -144,9 +144,9 @@
 
             }
 
-            L.geoJson(data).addTo(map);
+//            L.geoJson(data).addTo(map);
             
-//            L.geoJson(data, options).addTo(map);
+            L.geoJson(data, options).addTo(map);
             
 //            drawLegend(data)
             
@@ -155,12 +155,11 @@
 
         function pointToLayer(feature, latlng) {
 
+            
             return L.circleMarker(latlng, {
 
-                radius: 10
+                radius: calcRadius(feature.properties.GHG_QUANTITY)
                 
-//                console.log(feature.properties);
-
             });
 
         }
@@ -168,10 +167,11 @@
         function style(feature) {
 
             var styleOptions = {
-
+                
+                fillColor: '#bd4932',
                 fillOpacity: 1,
-                color: "whitesmoke",
-                weight: 1
+                color: "#105b63",
+                weight: 2
 
             }
 
@@ -184,14 +184,27 @@
             layer.on({
                 mouseover: function () {
 
+                    layer.setStyle({
+                        color: "yellow",
+                        weight: 3
+                    });
+
                 },
                 mouseout: function () {
 
-                    
+                    layer.setStyle({
+                        color: "#105b63",
+                        weight: 1
+                    });
                 }
-            })
+            });
             
-            console.log(feature.properties);
+
+            var toolTipInfo = "Name: " + feature.properties.NAME + "<br>" +
+                "C02: " + feature.properties.GHG_QUANTITY.toLocaleString() + "metric tons"
+
+
+            layer.bindTooltip(toolTipInfo, { sticky: true });
 
         }
 

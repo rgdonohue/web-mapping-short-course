@@ -150,25 +150,26 @@
             
 //            drawLegend(data)
             
-        }
+        } // end drawMap
 
 
         function pointToLayer(feature, latlng) {
+            
+//                console.log(feature.properties);
 
             return L.circleMarker(latlng, {
 
                 radius: 10
-                
-//                console.log(feature.properties);
 
             });
 
-        }
+        } // end pointToLayer
 
         function style(feature) {
 
             var styleOptions = {
-
+                
+                fillColor: '#bd4932',
                 fillOpacity: 1,
                 color: "whitesmoke",
                 weight: 1
@@ -177,23 +178,23 @@
 
             return styleOptions;
 
-        }
+        } // end style
 
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: function () {
-
+                    
+//                    console.log(feature.properties);
+                    
                 },
                 mouseout: function () {
 
                     
                 }
-            })
-            
-            console.log(feature.properties);
+            })  
 
-        }
+        } // end onEachFeature
 
         function calcRadius(val) {
 
@@ -202,13 +203,13 @@
             
             return radius * scaleFactor;
 
-        }
+        } // end calcRadius
         
         function drawLegend(data) {
             
             
                     
-        }
+        } // end drawLegend
         
         
         
