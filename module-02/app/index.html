@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Map Title</title>
+    <title>Green House Gas Emissions</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
@@ -82,26 +82,49 @@
         a:hover {
             text-decoration: underline;
         }
-
+        #legend {
+            position: relative;
+            margin: 20px 0;
+        }
+        #legend-large, #legend-small {
+            border: 2px solid grey;
+            border-radius: 50%;
+            background: whitesmoke;
+            position: absolute;
+        }
+        #legend-large-label, #legend-small-label {
+            position: absolute;
+        }
+        #legend hr.small, #legend hr.large {
+            width: 83px;
+            position: absolute;
+            top: -8px;
+            left: 66px;
+        }
   
     </style>
 </head>
 
 <body>
 
-    <h1>Map Title</h1>
+    <h1>It's getting hot out west!</h1>
 
     <div id='map'></div>
 
     <section id="side-panel">
-        <h2>Subtitle</h2>
+        <h2>2015 Green House Gas Emissions in Colorado</h2>
 
-		<p>Additional information about <a href="#">the data</a> and map goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. </p>
-
-		<p>Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae. Sed sed enim nisl.
-		</p>
-
-		<p>Map authored by me, MY NAME</p>
+        <p>This proportional symbol map shows the relative magnitude of green house gas emissions in 2015 by large facilites. Data are shown by <span style='color: #bd4932; font-weight: bold;'>fuel combustion</span> and <span style='color: #105b63; font-weight: bold;'> process emissions</span>.
+        
+        <h3>Metric tons of GHG</h3>
+        <div id='legend'>
+            <div id="legend-large"></div>
+            <div id="legend-small"></div>
+            <div id="legend-large-label"></div>
+            <div id="legend-small-label"></div>
+        </div>
+        <p>The data are reported to the EPA and available from their <a href="https://ghgdata.epa.gov/ghgp/main.do">FLIGHT</a> web applicaiton.</p>
+        <p>Map authored <a href="https://github.com/rgdonohue">Rich Donohue</a>.</p>
 
     </section>
 
@@ -126,9 +149,13 @@
         }).addTo(map);
 
 
-        $.getJSON('data/data.json', function (data) {
+        $.getJSON('data/ghg-emissions.json', function (data) {
 
             console.log(data);
+            
+            data.features.sort(function (a, b) {
+                return b.properties.GHG_QUANTITY - a.properties.GHG_QUANTITY
+            });
 
             drawMap(data);
 
@@ -144,72 +171,124 @@
 
             }
 
-            L.geoJson(data).addTo(map);
+            L.geoJson(data, options).addTo(map);
             
-//            L.geoJson(data, options).addTo(map);
+            drawLegend(data)
             
-//            drawLegend(data)
-            
-        } // end drawMap
+        }
 
 
         function pointToLayer(feature, latlng) {
-            
-//                console.log(feature.properties);
+            // function will take Point Feature geometry
+            // and convert to a Leaflet layer by returning
+            // a Leaflet marker or SVG such as circle or circleMarker
 
             return L.circleMarker(latlng, {
 
-                radius: 10
+                radius: calcRadius(feature.properties.GHG_QUANTITY)
 
             });
 
-        } // end pointToLayer
+        }
 
         function style(feature) {
 
             var styleOptions = {
-                
-                fillColor: '#bd4932',
-                fillOpacity: 1,
+
+                fillOpacity: .6,
                 color: "whitesmoke",
                 weight: 1
 
             }
 
+            if (feature.properties.TYPE === 'fc') {
+                styleOptions.fillColor = '#bd4932';
+            } else {
+                styleOptions.fillColor = '#105b63';
+            }
+
             return styleOptions;
 
-        } // end style
+        }
 
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: function () {
-                    
-//                    console.log(feature.properties);
-                    
+
+                    layer.setStyle({
+                        color: "yellow",
+                        weight: 3
+                    });
+
                 },
                 mouseout: function () {
 
-                    
+                    layer.setStyle({
+                        color: "whitesmoke",
+                        weight: 1
+                    });
                 }
-            })  
+            });
+            
+            var typeCode = {
+                'fc': "fuel combustion",
+                'pe': "process emissions"
+            }
 
-        } // end onEachFeature
+            var toolTipInfo = "Name: " + feature.properties.FACILITY_NAME + "<br>" +
+                "C02: " + feature.properties.GHG_QUANTITY.toLocaleString() + "<br>" +
+                "Type: " + typeCode[feature.properties.TYPE]
+
+
+            layer.bindTooltip(toolTipInfo, { sticky: true });
+
+        }
 
         function calcRadius(val) {
 
-            var radius = Math.sqrt(val / Math.PI),
-                scaleFactor = .04;
-            
-            return radius * scaleFactor;
+            var radius = Math.sqrt(val / Math.PI);
+            return radius * .04;
 
-        } // end calcRadius
+        }
         
         function drawLegend(data) {
             
+              var largeDiameter = calcRadius(data.features[0].properties.GHG_QUANTITY) * 2,
+                  smallDiameter = largeDiameter/2;
             
+              $("#legend").css('height', largeDiameter.toFixed());
+            
+              $('#legend-large').css({
+                  'width': largeDiameter.toFixed(),
+                  'height': largeDiameter.toFixed()
+              })
+              
+              $("#legend-large-label").html(data.features[0].properties.GHG_QUANTITY.toLocaleString());
+            
+              $("#legend-large-label").css({
+                  'left': largeDiameter + 30,
+                  'top' : -8
+              });
+            
+              $('#legend-small').css({
+                  'width': smallDiameter.toFixed(),
+                  'height': smallDiameter.toFixed(),
+                  'top': largeDiameter - smallDiameter,
+                  'left': smallDiameter/2
+              })
+              
+              $("#legend-small-label").html((data.features[0].properties.GHG_QUANTITY/2).toLocaleString());
+            
+              $("#legend-small-label").css({
+                  'top': smallDiameter - 8,
+                  'left': largeDiameter + 30
+              });   
+            
+              $("<hr class='large'>").insertBefore("#legend-large-label")
+              $("<hr class='small'>").insertBefore("#legend-small-label").css('top', largeDiameter - smallDiameter - 8);
                     
-        } // end drawLegend
+        }
         
         
         

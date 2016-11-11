@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>US County Health Rankings</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: "whitesmoke";
+            font-family: "Noto Sans", sans-serif;
+            color: #3d3d3d;
+        }
+
+        h1 {
+            position: absolute;
+            margin-top: 0;
+            top: 10px;
+            left: 15px;
+            font-size: 1.8em;
+            font-family: "Lora", serif;
+            letter-spacing: .04em;
+            padding: 10px 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+        }
+
+        h2 {
+            font-family: "Lora", serif;
+            letter-spacing: .04em;
+            font-size: 1.2em;
+            line-height: 1.5em;
+        }
+
+        h3 {
+            font-family: "Noto Sans", sans-serif;
+            font-size: 1.1em;
+            font-weight: normal;
+            text-align: center;
+            margin: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        p {
+            font-size: .9em;
+            line-height: 1.5em;
+        }
+
+        a {
+            color: #005daa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .legend {
+            padding: 6px 8px;
+            font-size: 1em;
+            padding: 10px 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+        }
+
+        .legend h3 {
+            font-size: 1.4em;
+            font-weight: bold;
+            line-height: 1em;
+            color: #3d3d3d;
+            margin: 10px 10px 10px auto;
+            text-align: left;
+        }
+
+        .legend span {
+            width: 30px;
+            height: 20px;
+            float: left;
+            margin: 0 10px 4px 0;
+        }
+
+        .legend label {
+            font-size: 1.1em;
+        }
+
+        .legend label:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .ui {
+            padding: 6px 8px;
+            font-size: 1em;
+            padding: 10px 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+        }
+
+        .ui label {
+            margin: 6px 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>US County Health Rankings</h1>
+
+    <div id='map'></div>
+
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+    <script src="https://unpkg.com/simple-statistics@2.2.0/dist/simple-statistics.min.js"></script>
+    <script>
+        var options = {
+            center: [38, -97],
+            zoom: 4,
+            zoomSnap: .4,
+            zoomControl: false
+        }
+
+        var map = L.map('map', options);
+
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+
+        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        var countiesLayer,
+            currentAttribute = 'Frequent_Physical_Distress';
+
+        $.getJSON('data/counties.json', function(counties) {
+
+            // console.log(counties)
+
+            // L.geoJson(counties).addTo(map);
+
+            // makeMap(counties)
+
+            // Papa.parse('data/2016CountyHealthRankings.csv', {
+            //     download: true,
+            //     header: true,
+            //     complete: function(data) {
+            //
+            //         // console.log(data);
+            //
+            //         processData(counties, data);
+            //     }
+            // });
+        });
+
+        function processData(counties, data) {
+
+
+            for (var county in counties.features) {
+
+                var props = counties.features[county].properties;
+
+                for (var d in data.data) {
+
+                    if (String(props.STATEFP) + String(props.COUNTYFP) === data.data[d].FIPS) {
+
+                        counties.features[county].properties = data.data[d];
+                        break;
+                    }
+                }
+
+            }
+
+            // console.log(counties)
+
+
+            // drawLegend();
+            // makeMap(counties);
+            // buildUI(data);
+
+        }
+
+        function makeMap(counties) {
+
+
+            countiesLayer = L.geoJson(counties, {
+
+                style: function(feature) {
+                    return {
+                        color: "whitesmoke",
+                        weight: '.4',
+                        fillColor: "steelblue",
+                        fillOpacity: 1
+                    }
+                },
+                onEachFeature: function(feature, layer) {
+
+                    // layer.bindTooltip(currentAttribute + ": " + feature.properties[currentAttribute]);
+
+                }
+
+
+            }).addTo(map);
+
+            // styleMap();
+
+        }
+
+        function styleMap(counties) {
+
+            // var breaks = getClassBreaks();
+
+            countiesLayer.eachLayer(function(layer) {
+
+                //  console.log(layer.feature);
+
+                var props = layer.feature.properties;
+
+                layer.setStyle({
+                    fillColor: 'green',
+                    // fillColor: getColor(props[currentAttribute])
+                    // fillColor: getColor(props[currentAttribute], breaks)
+                })
+
+            });
+
+            // updateLegend(breaks);
+
+        }
+
+        function getClassBreaks() {
+
+            var values = [];
+
+            countiesLayer.eachLayer(function(layer) {
+
+                var value = layer.feature.properties[currentAttribute];
+
+                if (value) {
+                    values.push(Number(value));
+                }
+
+            });
+
+            // console.log(values);
+
+            var breaks = ss.equalIntervalBreaks(values, 5);
+
+            // console.log(breaks);
+
+            return breaks;
+
+        }
+
+        function getColor(val) {
+
+            if (!val) return 'grey' // no data
+
+            if (val <= 20) {
+                return '#fef0d9';
+            } else if (val <= 40) {
+                return '#fdcc8a';
+            } else if (val <= 60) {
+                return '#fc8d59';
+            } else if (val <= 80) {
+                return '#e34a33';
+            } else if (val <= 100) {
+                return '#b30000';
+            }
+        }
+
+        // function getColor(val, breaks) {
+        //
+        //     if (!val) return 'grey' // no data
+        //
+        //     if (val <= breaks[1]) {
+        //         return '#fef0d9';
+        //     } else if (val <= breaks[2]) {
+        //         return '#fdcc8a';
+        //     } else if (val <= breaks[3]) {
+        //         return '#fc8d59';
+        //     } else if (val <= breaks[4]) {
+        //         return '#e34a33';
+        //     } else if (val <= breaks[5]) {
+        //         return '#b30000';
+        //     }
+        // }
+
+        function drawLegend() {
+
+            var legend = L.control({
+                position: 'bottomleft'
+            });
+
+            legend.onAdd = function(map) {
+
+                return L.DomUtil.create('div', 'legend');
+
+            };
+
+            legend.addTo(map);
+
+        }
+
+        function updateLegend(breaks) {
+
+            // select the legend, add a title
+            var legend = $('.legend').html("<h3>Percent<br>" + currentAttribute + "</h3>");
+
+            // loop through the Array of classification break values
+            for (var i = 1; i <= breaks.length - 1; i++) {
+
+                // get a color for the current class break
+                var color = getColor(breaks[i], breaks);
+
+                $('.legend').append(
+                    '<span style="background:' + color + '"></span> ' +
+                    '<label>' + (breaks[i - 1]).toLocaleString() + ' &mdash; ' +
+                    (breaks[i]).toLocaleString() + ' %</label>');
+            }
+        }
+
+        function buildUI(data) {
+
+            var uiControl = L.control({
+                position: 'bottomright'
+            });
+
+            uiControl.onAdd = function(map) {
+
+                var div = L.DomUtil.create('form', 'ui');
+
+                return div;
+
+            };
+
+            uiControl.addTo(map);
+
+            var ui = $('.ui');
+
+            var props = data.data[0];
+
+            for (var prop in props) {
+                if (prop != 'FIPS' && prop != "State" && prop != "County") {
+                    ui.append("<input type='radio' name='attribute' id='" + prop + "' value='" + prop + "'>");
+                    ui.append("<label for='" + prop + "'>" + prop + "</label><br>");
+                }
+            }
+
+            $('#Frequent_Physical_Distress').attr('checked', 'checked');
+
+            ui.on('change', function(e) {
+
+                currentAttribute = e.target.value;
+
+                styleMap(currentAttribute);
+            })
+        }
+    </script>
+
+</body>
+
+</html>
