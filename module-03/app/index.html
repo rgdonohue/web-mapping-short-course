@@ -156,22 +156,16 @@
 
         $.getJSON('data/counties.json', function(counties) {
 
-            // console.log(counties)
+            Papa.parse('data/2016CountyHealthRankings.csv', {
+                download: true,
+                header: true,
+                complete: function(data) {
 
-            // L.geoJson(counties).addTo(map);
+                    // console.log(counties, data);
 
-            // makeMap(counties)
-
-            // Papa.parse('data/2016CountyHealthRankings.csv', {
-            //     download: true,
-            //     header: true,
-            //     complete: function(data) {
-            //
-            //         // console.log(data);
-            //
-            //         processData(counties, data);
-            //     }
-            // });
+                    processData(counties, data);
+                }
+            });
         });
 
         function processData(counties, data) {
@@ -183,7 +177,7 @@
 
                 for (var d in data.data) {
 
-                    if (String(props.STATEFP) + String(props.COUNTYFP) === data.data[d].FIPS) {
+                    if (props.GEOID === data.data[d].FIPS) {
 
                         counties.features[county].properties = data.data[d];
                         break;
@@ -192,12 +186,12 @@
 
             }
 
-            // console.log(counties)
+            console.log(counties)
 
 
-            // drawLegend();
-            // makeMap(counties);
-            // buildUI(data);
+            drawLegend();
+            makeMap(counties);
+            buildUI(data);
 
         }
 
@@ -210,7 +204,7 @@
                     return {
                         color: "whitesmoke",
                         weight: '.4',
-                        fillColor: "steelblue",
+                        fillColor: "blue",
                         fillOpacity: 1
                     }
                 },
@@ -223,13 +217,13 @@
 
             }).addTo(map);
 
-            // styleMap();
+            styleMap();
 
         }
 
-        function styleMap(counties) {
+        function styleMap() {
 
-            // var breaks = getClassBreaks();
+            var breaks = getClassBreaks();
 
             countiesLayer.eachLayer(function(layer) {
 
@@ -237,15 +231,19 @@
 
                 var props = layer.feature.properties;
 
+                // console.log(props)
+
                 layer.setStyle({
-                    fillColor: 'green',
+                    // fillColor: 'yellow',
                     // fillColor: getColor(props[currentAttribute])
-                    // fillColor: getColor(props[currentAttribute], breaks)
+                    fillColor: getColor(props[currentAttribute], breaks)
                 })
+
+                layer.bindTooltip(currentAttribute + ": " + layer.feature.properties[currentAttribute] + "%");
 
             });
 
-            // updateLegend(breaks);
+            updateLegend(breaks);
 
         }
 
@@ -263,49 +261,49 @@
 
             });
 
-            // console.log(values);
+            console.log(values);
 
             var breaks = ss.equalIntervalBreaks(values, 5);
 
-            // console.log(breaks);
+            console.log(breaks);
 
             return breaks;
 
         }
 
-        function getColor(val) {
-
-            if (!val) return 'grey' // no data
-
-            if (val <= 20) {
-                return '#fef0d9';
-            } else if (val <= 40) {
-                return '#fdcc8a';
-            } else if (val <= 60) {
-                return '#fc8d59';
-            } else if (val <= 80) {
-                return '#e34a33';
-            } else if (val <= 100) {
-                return '#b30000';
-            }
-        }
-
-        // function getColor(val, breaks) {
+        // function getColor(val) {
         //
         //     if (!val) return 'grey' // no data
         //
-        //     if (val <= breaks[1]) {
+        //     if (val <= 20) {
         //         return '#fef0d9';
-        //     } else if (val <= breaks[2]) {
+        //     } else if (val <= 40) {
         //         return '#fdcc8a';
-        //     } else if (val <= breaks[3]) {
+        //     } else if (val <= 60) {
         //         return '#fc8d59';
-        //     } else if (val <= breaks[4]) {
+        //     } else if (val <= 80) {
         //         return '#e34a33';
-        //     } else if (val <= breaks[5]) {
+        //     } else if (val <= 100) {
         //         return '#b30000';
         //     }
         // }
+
+        function getColor(val, breaks) {
+
+            if (!val) return 'grey' // no data
+
+            if (val <= breaks[1]) {
+                return '#fef0d9';
+            } else if (val <= breaks[2]) {
+                return '#fdcc8a';
+            } else if (val <= breaks[3]) {
+                return '#fc8d59';
+            } else if (val <= breaks[4]) {
+                return '#e34a33';
+            } else if (val <= breaks[5]) {
+                return '#b30000';
+            }
+        }
 
         function drawLegend() {
 
@@ -374,7 +372,7 @@
 
                 currentAttribute = e.target.value;
 
-                styleMap(currentAttribute);
+                styleMap();
             })
         }
     </script>

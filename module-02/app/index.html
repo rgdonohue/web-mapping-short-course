@@ -19,7 +19,7 @@
             font-family: "Noto Sans", sans-serif;
             color: #3d3d3d;
         }
-        
+
         h1 {
             position: absolute;
             margin-top: 0;
@@ -34,7 +34,7 @@
             border-radius: 3px;
             z-index: 800;
         }
-        
+
         h2 {
             font-family: "Lora", serif;
             letter-spacing: .04em;
@@ -48,14 +48,14 @@
             text-align: center;
             margin: 0;
         }
-        
+
         #map {
             position: absolute;
             top: 0;
             bottom: 0;
             width: 100%;
         }
-        
+
         #side-panel {
             position: absolute;
             bottom: 0;
@@ -68,17 +68,17 @@
             border-radius: 3px;
             z-index: 800;
         }
-        
+
         p {
             font-size: .9em;
             line-height: 1.5em;
         }
-        
+
         a {
             color: #005daa;
             text-decoration: none;
         }
-        
+
         a:hover {
             text-decoration: underline;
         }
@@ -101,7 +101,7 @@
             top: -8px;
             left: 66px;
         }
-  
+
     </style>
 </head>
 
@@ -115,7 +115,7 @@
         <h2>2015 Green House Gas Emissions in Colorado</h2>
 
         <p>This proportional symbol map shows the relative magnitude of green house gas emissions in 2015 by large facilites. Data are shown by <span style='color: #bd4932; font-weight: bold;'>fuel combustion</span> and <span style='color: #105b63; font-weight: bold;'> process emissions</span>.
-        
+
         <h3>Metric tons of GHG</h3>
         <div id='legend'>
             <div id="legend-large"></div>
@@ -139,7 +139,7 @@
         }
 
         var map = L.map('map', options);
-        
+
         L.control.zoom({ position: 'topright'}).addTo(map);
 
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -152,7 +152,7 @@
         $.getJSON('data/ghg-emissions.json', function (data) {
 
             console.log(data);
-            
+
             data.features.sort(function (a, b) {
                 return b.properties.GHG_QUANTITY - a.properties.GHG_QUANTITY
             });
@@ -162,7 +162,7 @@
         });
 
         function drawMap(data) {
-            
+
             var options = {
 
                 pointToLayer: pointToLayer,
@@ -172,9 +172,9 @@
             }
 
             L.geoJson(data, options).addTo(map);
-            
-            drawLegend(data)
-            
+
+             drawLegend(data)
+
         }
 
 
@@ -230,7 +230,7 @@
                     });
                 }
             });
-            
+
             var typeCode = {
                 'fc': "fuel combustion",
                 'pe': "process emissions"
@@ -251,47 +251,47 @@
             return radius * .04;
 
         }
-        
+
         function drawLegend(data) {
-            
+
               var largeDiameter = calcRadius(data.features[0].properties.GHG_QUANTITY) * 2,
                   smallDiameter = largeDiameter/2;
-            
+
               $("#legend").css('height', largeDiameter.toFixed());
-            
+
               $('#legend-large').css({
                   'width': largeDiameter.toFixed(),
                   'height': largeDiameter.toFixed()
               })
-              
+
               $("#legend-large-label").html(data.features[0].properties.GHG_QUANTITY.toLocaleString());
-            
+
               $("#legend-large-label").css({
                   'left': largeDiameter + 30,
                   'top' : -8
               });
-            
+
               $('#legend-small').css({
                   'width': smallDiameter.toFixed(),
                   'height': smallDiameter.toFixed(),
                   'top': largeDiameter - smallDiameter,
                   'left': smallDiameter/2
               })
-              
+
               $("#legend-small-label").html((data.features[0].properties.GHG_QUANTITY/2).toLocaleString());
-            
+
               $("#legend-small-label").css({
                   'top': smallDiameter - 8,
                   'left': largeDiameter + 30
-              });   
-            
+              });
+
               $("<hr class='large'>").insertBefore("#legend-large-label")
               $("<hr class='small'>").insertBefore("#legend-small-label").css('top', largeDiameter - smallDiameter - 8);
-                    
+
         }
-        
-        
-        
+
+
+
     </script>
 
 </body>
