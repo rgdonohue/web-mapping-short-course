@@ -364,20 +364,6 @@ Whoomp there it is. Oh wait, probably need to add some CSS rules to the head of 
 ```
 
 
-## Hosting your map on GitHub.
+## Serving your web map on GitHub
 
 Web hosting is easy on GitHub. Follow these instructions: [GitHub Pages](https://pages.github.com/)
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Serving your web map on GitHub
