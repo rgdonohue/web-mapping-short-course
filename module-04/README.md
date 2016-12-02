@@ -336,6 +336,15 @@ function drawLegend(breaks, colorize) {
 Whoomp there it is. Oh wait, probably need to add some CSS rules to the head of the document:
 
 ```css
+.legend {
+    padding: 6px 8px;
+    font-size: 1em;
+    padding: 10px 15px;
+    background: rgba(256, 256, 256, .8);
+    border: 1px solid grey;
+    border-radius: 3px;
+    max-width: 220px;
+}
 .legend h3 {
     font-size: 1.4em;
     font-weight: bold;
