@@ -35,7 +35,41 @@
             border-radius: 3px;
             z-index: 800;
         }
-      
+        .legend {
+            padding: 6px 8px;
+            font-size: 1em;
+            padding: 10px 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+            max-width: 220px;
+        }
+        .legend h3 {
+            font-size: 1.4em;
+            font-weight: bold;
+            line-height: 1em;
+            color: #3d3d3d;
+            margin: 10px 10px 10px auto;
+            text-align: left;
+        }
+
+        .legend span {
+            width: 30px;
+            height: 20px;
+            float: left;
+            margin: 0 10px 4px 0;
+        }
+
+        .legend label {
+            font-size: 1.1em;
+        }
+
+        .legend label:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
     </style>
 </head>
 
@@ -45,6 +79,9 @@
 
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+    <script src='https://npmcdn.com/@turf/turf@3.5.1/turf.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.1/chroma.min.js"></script>
 
     <script>
         // instantiate our map
@@ -59,6 +96,153 @@
             subdomains: 'abcd',
             maxZoom: 19
         }).addTo(map);
+
+
+        // async request to load point data and convert to Leaflet GeoJSON layer
+        var accidents = omnivore.csv('data/accidents.csv')
+          .on('ready', function(data) {
+
+              // when data is loaded
+              makeMap(accidents)
+          })
+          .on('error', function(e) {
+              console.log('oh no something terrible has happened!')
+          })
+
+        function makeMap(accidents) {
+            // we have access to the Leaflet GeoJson here
+            console.log(accidents);
+
+            // get the sw/ne bounds of the accidents data layer
+            var bounds = accidents.getBounds();
+            console.log(bounds);
+
+            // convert bounds to string rep of bounding coords
+            var bbox = bounds.toBBoxString();
+            console.log(bbox);
+            // convert string to array of numbers for bounding coords
+            var bbox = bbox.split(',').map(function(coord) {
+                return Number(coord)
+            });
+            console.log(bbox);
+            // designate dimension of cell width
+            var cellWidth = 1;
+
+            // designate units for cell width calculation
+            var units = 'miles';
+
+            // create a featurecollection of hex polygons
+            var hexgrid = turf.hexGrid(bbox, cellWidth, units);
+
+            console.log(hexgrid);
+
+            var points = accidents.toGeoJSON();
+
+            // loop through all the hex polygons
+            hexgrid.features.map(function(hex) {
+
+                // create a property name for each of 'count'
+                if(!hex.properties.count) hex.properties.count = 0;
+
+                // loop through all the points
+                points.features.map(function(point) {
+
+                  // if a point is inside a hex polygon
+                  if(turf.inside(point,hex)) {
+
+                      // add one to the prop count
+                      hex.properties.count++
+                  }
+
+                });
+            });
+
+            // empty array to store all our counts
+            var counts = [];
+
+            // create a Leaflet GeoJson layer with newly
+            // processed polygon data
+            var hexLayer = L.geoJson(hexgrid, {
+                style: function(feature) {
+                  return {
+                    color: "white",
+                    weight: .2,
+                    fillOpacity: 1
+                  }
+                },
+                filter: function(feature) {
+                  // if the poly has data
+                  if(feature.properties.count > 0) {
+                    // push that count to the array
+                    counts.push(feature.properties.count);
+
+                    // retain that feature for representation
+                    return feature;
+                  }
+                }
+
+            }).addTo(map);
+
+            // use chroma.js to determine class breaks
+            // using ckmeans method
+            var breaks = chroma.limits(counts, 'k', 5);
+
+            // create color generator
+            var colorize = chroma.scale(chroma.brewer.OrRd).domain(breaks).mode('lab');
+
+            // iterate through the layers
+            hexLayer.eachLayer(function(layer) {
+
+              // color each one according to count #
+              layer.setStyle({
+                fillColor : colorize(layer.feature.properties.count)
+              });
+
+              // bind tooltip to retrieve specific info
+              layer.bindTooltip(String(layer.feature.properties.count))
+
+            });
+
+              drawLegend(breaks, colorize);
+
+        } // end makeMap
+
+        function drawLegend(breaks, colorize) {
+              // create Leaflet control for legend
+              var legend = L.control({
+                  position: 'bottomleft'
+              });
+
+              // create a div for legend and add it to the map
+              legend.onAdd = function(map) {
+
+                  return L.DomUtil.create('div', 'legend');
+
+              };
+
+              legend.addTo(map);
+
+              // select the legend, add a title
+              var legend = $('.legend').html("<h3>Number of Traffic Accidents in 2016</h3>");
+
+              // loop through the Array of classification break values
+              for (var i = 1; i < breaks.length; i++) {
+
+                  // get a color for the current class break
+                  var color = colorize(breaks[i]);
+
+                  // build legend using breaks and color values
+                  $('.legend').append(
+                      '<span style="background:' + color + '"></span> ' +
+                      '<label>' + (breaks[i - 1]).toLocaleString() + ' &mdash; ' +
+                      (breaks[i]).toLocaleString() + ' </label>');
+              }
+
+          }
+
+
+
+
 
 
     </script>

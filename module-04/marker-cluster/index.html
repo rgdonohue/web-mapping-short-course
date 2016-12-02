@@ -7,6 +7,8 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
 
 
     <style>
@@ -31,6 +33,7 @@
 
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
 
 
     <script>
@@ -47,7 +50,46 @@
             maxZoom: 19
         }).addTo(map);
 
-      
+        // request geojson data
+        $.getJSON('data/stations.geojson', function(data) {
+
+            makeMap(data);
+        });
+
+        function makeMap(data) {
+
+          // L.geoJson(data).addTo(map);
+
+          // create new empty markers cluster group
+          var markers = L.markerClusterGroup();
+
+          // for all our data features
+          data.features.forEach(function(d, i) {
+
+            // create a new Leaflet marker
+            var marker = L.marker(L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]));
+
+            var props = d.properties;
+            var popupTemplate =
+                '<b>station name</b>: ' + props.station_name + '<br>' +
+                '<b>city</b>: ' + props.city + '<br>' +
+                '<b>hours</b>: ' + props.access_days_time + '<br>' +
+                '<b>phone</b>: ' + props.station_phone + '<br>' +
+                '<b>address</b>: ' + props.street_address
+
+             // bind the tooltip to the marker
+             marker.bindTooltip(popupTemplate);
+
+             // add the marker to the markerClusterGroup
+             markers.addLayer(marker);
+         });
+
+          // add the makerclusters to the map
+          markers.addTo(map);
+
+        }
+
+
     </script>
 
 </body>
