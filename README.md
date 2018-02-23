@@ -2,6 +2,8 @@
 
 The availability of code-free, push-button interfaces for making sophisticated web maps remains an ongoing goal for the web mapping community (e.g., [CARTO's Builder](https://carto.com/builder/), [Mapbox's Studio](https://www.mapbox.com/mapbox-studio/), or [ESRI's Configurable Apps](http://www.esri.com/software/configurable-apps)). However, proficiency in the web scripting languages of HTML, SVG, CSS, and JavaScript allows web cartographers to enhance the user experience of web maps beyond what is provided by such tools. The growing availability of freely distributed, open source code libraries and open Application Programming Interfaces (APIs) provide web mappers with advanced geoprocessing, representation, and interaction capabilities. This short course will introduce students to the design and development practices of building customized web maps and explore a variety of thematic mapping techniques.
 
+**Warning:** This repo was built for a series of hands-on workshops taught at CU-Boulder in the Fall of 2016 and not intended to be fully standalone for online learning. The Module 03 write-up still needs to be completed as well. Have fun!
+
 ## Learning Objectives
 
 By the end of this course, students will be able to:
