@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Green House Gas Emissions</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: "whitesmoke";
+            font-family: "Noto Sans", sans-serif;
+            color: #3d3d3d;
+        }
+
+        h1 {
+            position: absolute;
+            margin-top: 0;
+            top: 10px;
+            left: 15px;
+            font-size: 1.8em;
+            font-family: "Lora", serif;
+            letter-spacing: .04em;
+            padding: 10px 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+        }
+
+        h2 {
+            font-family: "Lora", serif;
+            letter-spacing: .04em;
+            font-size: 1.2em;
+            line-height: 1.5em;
+        }
+        h3 {
+            font-family: "Noto Sans", sans-serif;
+            font-size: 1.1em;
+            font-weight: normal;
+            text-align: center;
+            margin: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #side-panel {
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            width: 280px;
+            margin: 20px auto;
+            padding: 0 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+        }
+
+        p {
+            font-size: .9em;
+            line-height: 1.5em;
+        }
+
+        a {
+            color: #005daa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        #legend {
+            position: relative;
+            margin: 20px 0;
+        }
+        #legend-large, #legend-small {
+            border: 2px solid grey;
+            border-radius: 50%;
+            background: whitesmoke;
+            position: absolute;
+        }
+        #legend-large-label, #legend-small-label {
+            position: absolute;
+        }
+        #legend hr.small, #legend hr.large {
+            width: 83px;
+            position: absolute;
+            top: -8px;
+            left: 66px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>It's getting hot out west!</h1>
+
+    <div id='map'></div>
+
+    <section id="side-panel">
+        <h2>2015 Green House Gas Emissions in Colorado</h2>
+
+        <p>This proportional symbol map shows the relative magnitude of green house gas emissions in 2015 by large facilites. Data are shown by <span style='color: #bd4932; font-weight: bold;'>fuel combustion</span> and <span style='color: #105b63; font-weight: bold;'> process emissions</span>.
+
+        <h3>Metric tons of GHG</h3>
+        <div id='legend'>
+            <div id="legend-large"></div>
+            <div id="legend-small"></div>
+            <div id="legend-large-label"></div>
+            <div id="legend-small-label"></div>
+        </div>
+        <p>The data are reported to the EPA and available from their <a href="https://ghgdata.epa.gov/ghgp/main.do">FLIGHT</a> web applicaiton.</p>
+        <p>Map authored <a href="https://github.com/rgdonohue">Rich Donohue</a>.</p>
+
+    </section>
+
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script>
+        var options = {
+           center: [39.22, -106.72],
+            zoom: 7.2,
+            zoomSnap: .4,
+            zoomControl: false
+        }
+
+        var map = L.map('map', options);
+
+        L.control.zoom({ position: 'topright'}).addTo(map);
+
+        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+
+        $.getJSON('data/ghg-emissions.json', function (data) {
+
+            console.log(data);
+
+            data.features.sort(function (a, b) {
+                return b.properties.GHG_QUANTITY - a.properties.GHG_QUANTITY
+            });
+
+            drawMap(data);
+
+        });
+
+        function drawMap(data) {
+
+            var options = {
+
+                pointToLayer: pointToLayer,
+                style: style,
+                onEachFeature: onEachFeature
+
+            }
+
+            L.geoJson(data, options).addTo(map);
+
+             drawLegend(data)
+
+        }
+
+
+        function pointToLayer(feature, latlng) {
+            // function will take Point Feature geometry
+            // and convert to a Leaflet layer by returning
+            // a Leaflet marker or SVG such as circle or circleMarker
+
+            return L.circleMarker(latlng, {
+
+                radius: calcRadius(feature.properties.GHG_QUANTITY)
+
+            });
+
+        }
+
+        function style(feature) {
+
+            var styleOptions = {
+
+                fillOpacity: .6,
+                color: "whitesmoke",
+                weight: 1
+
+            }
+
+            if (feature.properties.TYPE === 'fc') {
+                styleOptions.fillColor = '#bd4932';
+            } else {
+                styleOptions.fillColor = '#105b63';
+            }
+
+            return styleOptions;
+
+        }
+
+        function onEachFeature(feature, layer) {
+
+            layer.on({
+                mouseover: function () {
+
+                    layer.setStyle({
+                        color: "yellow",
+                        weight: 3
+                    });
+
+                },
+                mouseout: function () {
+
+                    layer.setStyle({
+                        color: "whitesmoke",
+                        weight: 1
+                    });
+                }
+            });
+
+            var typeCode = {
+                'fc': "fuel combustion",
+                'pe': "process emissions"
+            }
+
+            var toolTipInfo = "Name: " + feature.properties.FACILITY_NAME + "<br>" +
+                "C02: " + feature.properties.GHG_QUANTITY.toLocaleString() + "<br>" +
+                "Type: " + typeCode[feature.properties.TYPE]
+
+
+            layer.bindTooltip(toolTipInfo, { sticky: true });
+
+        }
+
+        function calcRadius(val) {
+
+            var radius = Math.sqrt(val / Math.PI);
+            return radius * .04;
+
+        }
+
+        function drawLegend(data) {
+
+              var largeDiameter = calcRadius(data.features[0].properties.GHG_QUANTITY) * 2,
+                  smallDiameter = largeDiameter/2;
+
+              $("#legend").css('height', largeDiameter.toFixed());
+
+              $('#legend-large').css({
+                  'width': largeDiameter.toFixed(),
+                  'height': largeDiameter.toFixed()
+              })
+
+              $("#legend-large-label").html(data.features[0].properties.GHG_QUANTITY.toLocaleString());
+
+              $("#legend-large-label").css({
+                  'left': largeDiameter + 30,
+                  'top' : -8
+              });
+
+              $('#legend-small').css({
+                  'width': smallDiameter.toFixed(),
+                  'height': smallDiameter.toFixed(),
+                  'top': largeDiameter - smallDiameter,
+                  'left': smallDiameter/2
+              })
+
+              $("#legend-small-label").html((data.features[0].properties.GHG_QUANTITY/2).toLocaleString());
+
+              $("#legend-small-label").css({
+                  'top': smallDiameter - 8,
+                  'left': largeDiameter + 30
+              });
+
+              $("<hr class='large'>").insertBefore("#legend-large-label")
+              $("<hr class='small'>").insertBefore("#legend-small-label").css('top', largeDiameter - smallDiameter - 8);
+
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
